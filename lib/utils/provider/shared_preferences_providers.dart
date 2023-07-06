@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:naatomeals/utils/helper/shared_preferences.dart';
 
+import '../theme.dart';
+
 class PreferenceSettingsProvider extends ChangeNotifier {
   late PreferenceSettingsHelper _preferenceSettingsHelper;
 
@@ -25,6 +27,15 @@ class PreferenceSettingsProvider extends ChangeNotifier {
 
   void setDailyNotification(bool value) async {
     _preferenceSettingsHelper.setDailyNotification(value);
+    _getPreferenceSettings();
+  }
+
+  void toggleTheme(bool value) {
+    if (value) {
+      _preferenceSettingsHelper.setDarkTheme(value);
+    } else {
+      _preferenceSettingsHelper.setDarkTheme(value);
+    }
     _getPreferenceSettings();
   }
 
@@ -56,5 +67,5 @@ class PreferenceSettingsProvider extends ChangeNotifier {
   }
 
   ThemeData get themeData =>
-      _isDarkThemeActive ? ThemeData.dark() : ThemeData.light();
+      _isDarkThemeActive ? AppTheme.darkTheme : AppTheme.lightTheme;
 }
