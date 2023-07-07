@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:naatomeals/utils/helper/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../theme.dart';
 
@@ -71,3 +73,11 @@ class PreferenceSettingsProvider extends ChangeNotifier {
   // ThemeData get themeData =>
   //     _isDarkThemeActive ? AppTheme.darkTheme : AppTheme.lightTheme;
 }
+
+final preferenceSettingsProvider =
+    ChangeNotifierProvider<PreferenceSettingsProvider>((ref) {
+  final preferenceSettingsHelper = PreferenceSettingsHelper(
+      sharedPreferences: SharedPreferences.getInstance());
+  return PreferenceSettingsProvider(
+      preferenceSettingsHelper: preferenceSettingsHelper);
+});

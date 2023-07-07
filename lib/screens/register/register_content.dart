@@ -80,6 +80,8 @@ class RegisterContent extends HookWidget {
               print(nameController.text);
               print(emailController.text);
               print(passwordController.text);
+
+              Navigator.pushNamed(context, 'home_screen');
             }),
         const SizedBox(height: 24),
         Align(
