@@ -6,6 +6,8 @@ class SplashScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    // @TODO: add animations in the splash screen
+
     useEffect(() {
       Future.delayed(const Duration(seconds: 3), () {
         Navigator.popAndPushNamed(context, 'welcome_screen');
@@ -20,18 +22,13 @@ class SplashScreen extends HookWidget {
           elevation: 0,
           backgroundColor: Colors.transparent,
         ),
-        body: Container(
+        body: SizedBox(
             height: double.infinity,
             width: double.infinity,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-              image: Image.asset('assets/images/Background.png').image,
-              fit: BoxFit.cover,
-            )),
             child: Center(
               child: Image.asset(
                 'assets/images/Naato Meals Logo.png',
-                height: 500,
+                height: 400,
                 width: 300,
                 fit: BoxFit.contain,
               ),

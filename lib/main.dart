@@ -38,7 +38,6 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           navigatorKey: navigatorKey,
           theme: preferenceSettingsProvider.themeData,
-          themeMode: ThemeMode.light,
           initialRoute: Routes.splashScreen,
           routes: routesApp,
           home: const Scaffold(

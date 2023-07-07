@@ -18,26 +18,63 @@ class AppTheme {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
-        elevation: MaterialStateProperty.all(0),
+        elevation: MaterialStateProperty.all(2),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+        textStyle: MaterialStateProperty.all(
+          textTheme.headlineMedium?.copyWith(
+            fontFamily: 'Poppins',
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 24,
+            // google fonts
+          ),
+        ),
+        minimumSize: MaterialStateProperty.all(const Size(200, 60)),
         backgroundColor: MaterialStateProperty.all(orangeColor),
-        foregroundColor: MaterialStateProperty.all(orangeColor),
+        foregroundColor: MaterialStateProperty.all(blackColor),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(
-        borderSide: BorderSide(color: blackColor),
+        borderSide: BorderSide(color: whiteColor),
+        borderRadius: BorderRadius.circular(20),
       ),
+      filled: true,
+      fillColor: inputBackgroundColor,
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(color: orangeColor),
+        borderRadius: BorderRadius.circular(20),
       ),
       enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: blackColor),
+        borderRadius: BorderRadius.circular(20),
+        borderSide: BorderSide(color: whiteColor),
       ),
       hintStyle: const TextStyle(
-        fontFamily: sofia,
+        fontFamily: poppins,
         fontSize: 16,
         fontWeight: FontWeight.w400,
         letterSpacing: 0.5,
+      ),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: ButtonStyle(
+        textStyle: MaterialStateProperty.all(
+          textTheme.titleSmall?.copyWith(
+            fontFamily: 'Poppins',
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+            // google fonts
+          ),
+        ),
+        minimumSize: MaterialStateProperty.all(const Size(5, 0)),
+        padding: MaterialStateProperty.all(const EdgeInsets.all(0)),
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        foregroundColor: MaterialStateProperty.all(whiteColor),
       ),
     ),
   );
@@ -58,23 +95,38 @@ class AppTheme {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
-        elevation: MaterialStateProperty.all(0),
+        elevation: MaterialStateProperty.all(2),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+        textStyle: MaterialStateProperty.all(
+          textTheme.headlineMedium?.copyWith(
+            fontFamily: 'Poppins',
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 24,
+            // google fonts
+          ),
+        ),
+        minimumSize: MaterialStateProperty.all(const Size(200, 50)),
         backgroundColor: MaterialStateProperty.all(orangeColor),
-        foregroundColor: MaterialStateProperty.all(orangeColor),
+        foregroundColor: MaterialStateProperty.all(whiteColor),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
-      border: const OutlineInputBorder(
-        borderSide: BorderSide(color: whiteColor),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20),
       ),
+      filled: true,
+      fillColor: inputBackgroundColor,
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(color: orangeColor),
       ),
-      enabledBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: whiteColor),
-      ),
+      enabledBorder: InputBorder.none,
       hintStyle: const TextStyle(
-        fontFamily: sofia,
+        fontFamily: poppins,
         fontSize: 16,
         fontWeight: FontWeight.w400,
         letterSpacing: 0.5,

@@ -24,62 +24,65 @@ Color grayColor = HexColor('#9A9FAE');
 Color grayColor80 = HexColor('#A8ACB9');
 Color grayColor50 = HexColor('#C4C7D0');
 Color grayColor20 = HexColor('#EBEBEB');
+Color grayColor10 = HexColor("6C6B6A");
 
 const Color whiteColor = Colors.white;
 
-const String sofia = 'sofia';
+const String poppins = 'poppins';
+Color inputBackgroundColor = HexColor("#F5F5F5");
 
-const TextTheme textTheme = TextTheme(
-  displayLarge: TextStyle(
-    fontFamily: sofia,
+TextTheme textTheme = TextTheme(
+  displayLarge: const TextStyle(
+    fontFamily: poppins,
     fontSize: 40,
     fontWeight: FontWeight.w700,
     letterSpacing: 0.25,
-    color: Colors.black,
+    color: Colors.orange,
   ),
-  headlineMedium: TextStyle(
-    fontFamily: sofia,
+  headlineMedium: const TextStyle(
+    fontFamily: poppins,
     fontSize: 28,
     fontWeight: FontWeight.w700,
     letterSpacing: 0.25,
   ),
-  headlineSmall: TextStyle(
-    fontFamily: sofia,
+  headlineSmall: const TextStyle(
+    fontFamily: poppins,
     fontSize: 24,
     fontWeight: FontWeight.w700,
   ),
-  titleLarge: TextStyle(
-    fontFamily: sofia,
+  titleLarge: const TextStyle(
+    fontFamily: poppins,
     fontSize: 20,
     fontWeight: FontWeight.w700,
     letterSpacing: 0.15,
   ),
-  titleMedium: TextStyle(
-    fontFamily: sofia,
+  titleMedium: const TextStyle(
+    fontFamily: poppins,
     fontSize: 16,
     fontWeight: FontWeight.w400,
     letterSpacing: 0.15,
   ),
   titleSmall: TextStyle(
-    fontFamily: sofia,
+    fontFamily: poppins,
     fontSize: 14,
-    fontWeight: FontWeight.w500,
-    letterSpacing: 0.1,
+    fontWeight: FontWeight.w300,
+    letterSpacing: 0,
+    color: grayColor,
   ),
-  bodyLarge: TextStyle(
-    fontFamily: sofia,
+  bodyLarge: const TextStyle(
+    fontFamily: poppins,
     fontSize: 16,
     fontWeight: FontWeight.w400,
     letterSpacing: 0.5,
   ),
-  bodySmall: TextStyle(
-    fontFamily: sofia,
+  bodySmall: const TextStyle(
+    fontFamily: poppins,
     fontSize: 14,
     fontWeight: FontWeight.w400,
     letterSpacing: 0.25,
   ),
-  labelLarge: TextStyle(
-    fontFamily: sofia,
+  labelLarge: const TextStyle(
+    fontFamily: poppins,
     fontSize: 14,
     fontWeight: FontWeight.w700,
     letterSpacing: 1.25,

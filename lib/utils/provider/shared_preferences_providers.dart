@@ -66,6 +66,8 @@ class PreferenceSettingsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  ThemeData get themeData =>
-      _isDarkThemeActive ? AppTheme.darkTheme : AppTheme.lightTheme;
+  ThemeData get themeData => AppTheme.lightTheme;
+
+  // ThemeData get themeData =>
+  //     _isDarkThemeActive ? AppTheme.darkTheme : AppTheme.lightTheme;
 }
