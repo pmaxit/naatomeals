@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:naatomeals/screens/screens.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import 'screen.dart';
 
 class FirstScreen extends HookWidget {
   const FirstScreen({super.key});
@@ -11,48 +12,36 @@ class FirstScreen extends HookWidget {
     // page controller
     final pageController = usePageController();
 
-    List<dynamic> pages = List.generate(
-      4,
-      (index) => Container(
-        color: Colors.orange[300],
-        child: Center(
-          child: Text(
-            'Page ${index + 1}',
-            style: const TextStyle(
-              fontSize: 32,
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ),
-    );
+    List<dynamic> pages = const [
+      OnBoardingPage(
+          pageName: 'first_screen',
+          imageUrl: 'assets/images/group-5.png',
+          messageHighlight: 'Order Home\'s Food',
+          subMessage: 'Just like how your mother cooked!'),
+      OnBoardingPage(
+          pageName: 'second_screen',
+          imageUrl: 'assets/imagse/group-6.png',
+          messageHighlight: 'Free Home Delivery',
+          subMessage: 'We deliver to your doorstep!'),
+      OnBoardingPage(
+          pageName: 'Subscription Service',
+          imageUrl: 'assets/images/group-7.png',
+          messageHighlight: 'Monthly Subscription plans',
+          subMessage: 'No hassle of order everyday. Just subscribe!'),
+    ];
 
-    pages.add(Container(
-      color: Colors.red,
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Page ${pages.length + 1}',
-              style: const TextStyle(
-                fontSize: 32,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.popAndPushNamed(context, 'register_screen');
-              },
-              child: const Text('Get Started'),
-            ),
-          ],
-        ),
-      ),
-    ));
-
-    //pages.add(RegisterScreen());
+    useEffect(() {
+      Future.delayed(const Duration(seconds: 3), () {
+        if (pageController.page == pages.length - 1) {
+          Navigator.pushReplacementNamed(context, 'regiter_screen');
+        } else {
+          pageController.nextPage(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeIn);
+        }
+      });
+      return null;
+    }, []);
 
     return Scaffold(
         body: SafeArea(
@@ -85,6 +74,7 @@ class FirstScreen extends HookWidget {
               ),
             ),
           ),
+          const SizedBox(height: 16),
         ],
       ),
     )));
