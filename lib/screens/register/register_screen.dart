@@ -22,16 +22,14 @@ class RegisterScreen extends StatelessWidget {
                 Colors.black.withOpacity(0.2), BlendMode.dstATop),
           ),
         ),
-        child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(height: 106),
-                Logo(width: 218, height: 148),
-                RegisterContent(),
-              ],
-            )),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(height: 0.05 * size.height),
+            const Logo(width: 218, height: 148),
+            const RegisterContent(),
+          ],
+        ),
       ),
     );
   }

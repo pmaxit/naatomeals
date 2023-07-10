@@ -2,6 +2,8 @@
 
 import 'dart:convert';
 
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import '../models/restaurant_list.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,7 +15,7 @@ class RestaurantListService {
   static const getSearchUrl = '/search?q=';
   static const addReviewUrl = '/review';
 
-  static Future<RestaurantListResponse> getRestaurantList() async {
+  Future<RestaurantListResponse> getRestaurantList() async {
     var url = Uri.parse(baseUrl + getListUrl);
     var response = await http.get(url);
     if (response.statusCode == 200) {
@@ -23,7 +25,7 @@ class RestaurantListService {
     }
   }
 
-  static Future<RestaurantListResponse> getRestaurantDetail(String id) async {
+  Future<RestaurantListResponse> getRestaurantDetail(String id) async {
     var url = Uri.parse(baseUrl + getDetailUrl + id);
     var response = await http.get(url);
     if (response.statusCode == 200) {
@@ -33,7 +35,7 @@ class RestaurantListService {
     }
   }
 
-  static Future<RestaurantListResponse> getSearchRestaurant(String query) {
+  Future<RestaurantListResponse> getSearchRestaurant(String query) {
     var url = Uri.parse(baseUrl + getSearchUrl + query);
     return http.get(url).then((response) {
       if (response.statusCode == 200) {
@@ -44,7 +46,7 @@ class RestaurantListService {
     });
   }
 
-  static Future<RestaurantListResponse> postReview(
+  Future<RestaurantListResponse> postReview(
       String id, String name, String review) async {
     var url = Uri.parse(baseUrl + addReviewUrl);
     var response =
@@ -56,3 +58,14 @@ class RestaurantListService {
     }
   }
 }
+
+final apiProvider = Provider<RestaurantListService>((ref) {
+  return RestaurantListService();
+});
+
+// restuarant list provider
+final restaurantList =
+    FutureProvider.autoDispose<RestaurantListResponse>((ref) async {
+  final api = ref.watch(apiProvider);
+  return api.getRestaurantList();
+});

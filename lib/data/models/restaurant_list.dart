@@ -23,6 +23,14 @@ class RestaurantListResponse {
             .map((restaurant) => RestaurantList.fromJson(restaurant))),
       );
 
+  factory RestaurantListResponse.fromError(String error) =>
+      RestaurantListResponse(
+          error: true,
+          message: error,
+          count: 0,
+          statusCode: 0,
+          restaurants: []);
+
   Map<String, dynamic> toJson() => {
         "error": error,
         "message": message,

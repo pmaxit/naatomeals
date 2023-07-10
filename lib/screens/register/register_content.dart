@@ -15,90 +15,92 @@ class RegisterContent extends HookWidget {
     final passwordController = useTextEditingController();
     final confirmPasswordController = useTextEditingController();
 
+    final size = MediaQuery.of(context).size;
     final textTheme = Theme.of(context).textTheme;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      // space
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      // align items
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 55),
-        Text(
-          "Let's get started ",
-          style: textTheme.headlineSmall?.copyWith(
-            fontWeight: FontWeight.w600,
-            fontSize: 22,
+    return Padding(
+      padding: const EdgeInsets.only(left: 24.0, right: 24.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        // space
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        // align items
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 0.05 * size.height),
+          Text(
+            "Let's get started ",
+            style: textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.w600,
+              fontSize: 22,
+            ),
           ),
-        ),
-        const SizedBox(height: 5),
-        Text("Enter the following details to sign up",
-            style: textTheme.titleSmall?.copyWith(
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-              color: grayColor,
-            )),
-        const SizedBox(height: 28),
-        TextField(
-          controller: nameController,
-          decoration: InputDecoration(
-            labelText: 'Name',
-            prefixIcon: Icon(Icons.person, color: orangeColor),
+          const SizedBox(height: 5),
+          Text("Enter the following details to sign up",
+              style: textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
+                color: grayColor,
+              )),
+          const SizedBox(height: 28),
+          TextField(
+            controller: nameController,
+            decoration: InputDecoration(
+              labelText: 'Name',
+              prefixIcon: Icon(Icons.person, color: orangeColor),
+            ),
           ),
-        ),
-        const SizedBox(height: 20),
-        TextField(
-          controller: emailController,
-          decoration: InputDecoration(
-            labelText: 'Email',
-            prefixIcon: Icon(Icons.email, color: orangeColor),
+          const SizedBox(height: 20),
+          TextField(
+            controller: emailController,
+            decoration: InputDecoration(
+              labelText: 'Email',
+              prefixIcon: Icon(Icons.email, color: orangeColor),
+            ),
           ),
-        ),
-        const SizedBox(height: 20),
-        TextField(
-          controller: passwordController,
-          obscureText: true,
-          decoration: InputDecoration(
-              labelText: 'Password',
-              prefixIcon: Icon(Icons.lock, color: orangeColor)),
-        ),
-        const SizedBox(height: 15),
-        Align(
-          alignment: Alignment.centerRight,
-          child: TextButton(
-            onPressed: () {},
-            child: Text("Forgot Password?",
-                style: textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
-                )),
+          const SizedBox(height: 20),
+          TextField(
+            controller: passwordController,
+            obscureText: true,
+            decoration: InputDecoration(
+                labelText: 'Password',
+                prefixIcon: Icon(Icons.lock, color: orangeColor)),
           ),
-        ),
-        const SizedBox(height: 32),
-        AppButton(
-            text: "Register",
-            onTap: () {
-              print(nameController.text);
-              print(emailController.text);
-              print(passwordController.text);
+          const SizedBox(height: 15),
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton(
+              onPressed: () {},
+              child: Text("Forgot Password?",
+                  style: textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  )),
+            ),
+          ),
+          const SizedBox(height: 32),
+          AppButton(
+              text: "Register",
+              onTap: () {
+                print(nameController.text);
+                print(emailController.text);
+                print(passwordController.text);
+                // refresh provider
 
-              Navigator.pushNamed(context, 'home_screen');
-            }),
-        const SizedBox(height: 24),
-        Align(
-          alignment: Alignment.center,
-          child: TextButton(
-            onPressed: () {},
-            child: Text("Or Continue",
-                style: textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
-                )),
+                Navigator.pushNamed(context, 'home_screen');
+              }),
+          const SizedBox(height: 24),
+          Align(
+            alignment: Alignment.center,
+            child: TextButton(
+              onPressed: () {},
+              child: Text("Or Continue",
+                  style: textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  )),
+            ),
           ),
-        ),
-        const SizedBox(height: 20),
-        // buttons for twitter and facebook rounded
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Row(
+          const SizedBox(height: 20),
+          // buttons for twitter and facebook rounded
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
@@ -156,38 +158,38 @@ class RegisterContent extends HookWidget {
               ),
             ],
           ),
-        ),
-        const SizedBox(height: 20),
-        Align(
-          alignment: Alignment.center,
-          child: Wrap(
-            spacing: 5,
-            children: [
-              TextButton(
-                onPressed: () {},
-                child: Text("Already have an account?",
-                    style: textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      color: HexColor("#202020"),
-                    )),
-              ),
-              TextButton(
-                style: TextButton.styleFrom(
-                  padding: const EdgeInsets.all(0),
-                ),
-                onPressed: () {},
-                child: Text("Sign In",
-                    style: textTheme.titleSmall?.copyWith(
-                        // bold font
-                        fontWeight: FontWeight.w600,
+          const SizedBox(height: 20),
+          Align(
+            alignment: Alignment.center,
+            child: Wrap(
+              spacing: 5,
+              children: [
+                TextButton(
+                  onPressed: () {},
+                  child: Text("Already have an account?",
+                      style: textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w500,
                         fontSize: 14,
-                        color: HexColor("#E62729"))),
-              ),
-            ],
+                        color: HexColor("#202020"),
+                      )),
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.all(0),
+                  ),
+                  onPressed: () {},
+                  child: Text("Sign In",
+                      style: textTheme.titleSmall?.copyWith(
+                          // bold font
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                          color: HexColor("#E62729"))),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

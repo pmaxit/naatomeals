@@ -9,4 +9,5 @@ Map<String, WidgetBuilder> routesApp = {
   Routes.loginScreen: (context) => const LoginScreen(),
   Routes.registerScreen: (context) => const RegisterScreen(),
   Routes.homeScreen: (context) => const HomeScreen(),
+  Routes.onboarding: (context) => const FirstScreen(),
 };

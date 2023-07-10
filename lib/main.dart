@@ -4,7 +4,6 @@ import 'package:naatomeals/routes/routes.dart';
 import 'package:naatomeals/utils/helper/shared_preferences.dart';
 import 'package:naatomeals/utils/provider/shared_preferences_providers.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'routes/register_routes.dart';
 import 'utils/navigation.dart';
@@ -26,7 +25,7 @@ class MyApp extends HookConsumerWidget {
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
       theme: prProvider.themeData,
-      initialRoute: Routes.splashScreen,
+      initialRoute: Routes.onboarding,
       routes: routesApp,
       home: const Scaffold(
         body: Center(
