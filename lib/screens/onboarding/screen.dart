@@ -25,19 +25,23 @@ class OnBoardingPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(imageUrl),
-                const SizedBox(height: 20),
+                const SizedBox(height: 60),
                 Text(messageHighlight,
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                           fontWeight: FontWeight.w600,
                           fontSize: 22,
                         )),
                 const SizedBox(height: 5),
-                Text(subMessage,
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14,
-                          color: Colors.grey,
-                        )),
+                Container(
+                  width: 200,
+                  child: Text(subMessage,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                            color: Colors.grey,
+                          )),
+                ),
               ],
             )));
   }
