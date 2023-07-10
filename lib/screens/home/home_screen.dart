@@ -11,46 +11,83 @@ class HomeScreen extends HookConsumerWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Naato Meals'),
-        ),
+            title: const Text('Naato Meals'),
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(100),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'What are you craving for?',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: BorderSide.none,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                  ),
+                ),
+              ),
+            )),
         body: restaurantListResponse.when(
           data: (data) {
-            return ListView.builder(
-              itemCount: data.restaurants.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: Card(
-                    elevation: 2,
-                    // radius: 25
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
+            return Container(
+              height: 100,
+              color: Colors.transparent,
+              child: ListView.builder(
+                itemCount: data.restaurants.length,
+                // horizontal
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  // card with background image
+                  // and container on top of it
+                  return Card(
+                    child: Stack(
+                      children: [
+                        Container(
+                          height: 110,
+                          width: 179,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                  'https://restaurant-api.dicoding.dev/images/medium/${data.restaurants[index].pictureId}'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.transparent,
+                                Colors.black.withOpacity(0.7),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 16,
+                          left: 16,
+                          right: 16,
+                          child: Text(
+                            data.restaurants[index].name,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(25),
-                      onTap: () {
-                        // Navigator.pushNamed(context, Routes.detailScreen,
-                        //     arguments: data.restaurants[index].id);
-                      },
-                      child: ListTile(
-                        contentPadding: const EdgeInsets.all(8),
-                        leading: Image.network(
-                          'https://restaurant-api.dicoding.dev/images/small/${data.restaurants[index].pictureId}',
-                          width: 100,
-                        ),
-                        title: Text(
-                          data.restaurants[index].name,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        subtitle: Text(
-                          data.restaurants[index].description,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             );
           },
           loading: () => const Center(child: CircularProgressIndicator()),

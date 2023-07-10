@@ -10,7 +10,7 @@ class SplashScreen extends HookWidget {
 
     useEffect(() {
       Future.delayed(const Duration(seconds: 3), () {
-        Navigator.popAndPushNamed(context, 'welcome_screen');
+        Navigator.popAndPushNamed(context, 'onboarding_screen');
       });
       return null;
     }, []);

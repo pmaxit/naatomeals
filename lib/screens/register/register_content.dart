@@ -85,7 +85,7 @@ class RegisterContent extends HookWidget {
                 print(passwordController.text);
                 // refresh provider
 
-                Navigator.pushNamed(context, 'home_screen');
+                Navigator.popAndPushNamed(context, 'home_screen');
               }),
           const SizedBox(height: 24),
           Align(

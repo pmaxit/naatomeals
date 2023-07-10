@@ -32,21 +32,21 @@ class FirstScreen extends HookWidget {
           subMessage: 'No hassle of order everyday. Just subscribe!'),
     ];
 
-    // useEffect(() {
-    //   // scroll through all the pages
-    //   Timer.periodic(const Duration(seconds: 2), (Timer timer) {
-    //     if (pageController.page == pages.length - 1) {
-    //       timer.cancel();
-    //       // push to the next screen
-    //       Navigator.popAndPushNamed(context, 'register_screen');
-    //     } else {
-    //       pageController.nextPage(
-    //           duration: const Duration(milliseconds: 300),
-    //           curve: Curves.easeIn);
-    //     }
-    //   });
-    //   return null;
-    // }, []);
+    useEffect(() {
+      // scroll through all the pages
+      Timer.periodic(const Duration(seconds: 2), (Timer timer) {
+        if (pageController.page == pages.length - 1) {
+          timer.cancel();
+          // push to the next screen
+          Navigator.popAndPushNamed(context, 'register_screen');
+        } else {
+          pageController.nextPage(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeIn);
+        }
+      });
+      return null;
+    }, []);
 
     return Scaffold(
         body: SafeArea(
@@ -90,7 +90,7 @@ class FirstScreen extends HookWidget {
                 onPressed: () {
                   if (pageController.page == pages.length - 1) {
                     // push to the next screen
-                    Navigator.popAndPushNamed(context, 'register_screen');
+                    Navigator.popAndPushNamed(context, 'welcome_screen');
                   } else {
                     pageController.nextPage(
                         duration: const Duration(milliseconds: 300),
