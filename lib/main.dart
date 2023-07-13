@@ -34,7 +34,7 @@ class MyApp extends HookConsumerWidget {
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
       theme: prProvider.themeData,
-      initialRoute: Routes.splashScreen,
+      initialRoute: Routes.homeScreen,
       routes: routesApp,
       home: const Scaffold(
         body: Center(

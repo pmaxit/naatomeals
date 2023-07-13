@@ -35,6 +35,7 @@ class FirstScreen extends HookWidget {
     useEffect(() {
       // scroll through all the pages
       Timer.periodic(const Duration(seconds: 2), (Timer timer) {
+        if (pageController.hasClients == false) return;
         if (pageController.page == pages.length - 1) {
           timer.cancel();
           // push to the next screen

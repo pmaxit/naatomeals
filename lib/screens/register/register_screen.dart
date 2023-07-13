@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:naatomeals/extensions/dynamic_padding.dart';
 
 import '../welcome/widgets/logo.dart';
 import 'register_content.dart';
@@ -27,7 +28,7 @@ class RegisterScreen extends StatelessWidget {
           children: [
             SizedBox(height: 0.05 * size.height),
             const Logo(width: 218, height: 148),
-            const RegisterContent(),
+            RegisterContent()
           ],
         ),
       ),
