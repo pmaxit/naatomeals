@@ -21,11 +21,10 @@ class _AppHeaderState extends State<AppHeader> {
 
   double _calculateExpandRatio(BoxConstraints constraints) {
     var expandRatio = clampDouble(
-        (constraints.maxHeight - widget.minHeight - kToolbarHeight - 20) /
+        (constraints.maxHeight - widget.minHeight - kToolbarHeight) /
             (widget.maxHeight - widget.minHeight),
         0,
         1);
-
     return expandRatio;
   }
 
@@ -35,7 +34,7 @@ class _AppHeaderState extends State<AppHeader> {
           AlignmentTween(begin: Alignment.bottomLeft, end: Alignment.bottomLeft)
               .evaluate(animation),
       child: Padding(
-        padding: const EdgeInsets.only(left: 16, bottom: 40),
+        padding: const EdgeInsets.only(left: 16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,7 +49,7 @@ class _AppHeaderState extends State<AppHeader> {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 10),
           ],
         ),
       ),
@@ -59,9 +58,9 @@ class _AppHeaderState extends State<AppHeader> {
 
   Widget _buildAvatar(Animation<double> animation) {
     return Align(
-      alignment:
-          AlignmentTween(begin: Alignment.topRight, end: Alignment.centerRight)
-              .evaluate(animation),
+      alignment: AlignmentTween(
+              begin: Alignment.centerRight, end: Alignment.centerRight)
+          .evaluate(animation),
       child: Padding(
         padding: const EdgeInsets.only(right: 16, top: 0),
         child: Opacity(

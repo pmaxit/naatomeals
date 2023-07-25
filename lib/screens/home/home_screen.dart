@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:naatomeals/data/models/restaurant_list.dart';
+import 'package:naatomeals/utils/styles.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import '../../data/api/restaurant_service.dart';
 import 'widgets/custom_appbar.dart';
+import 'widgets/custom_bar.dart';
 
 class HomeScreen extends HookConsumerWidget {
   HomeScreen({super.key});
@@ -37,6 +39,12 @@ class HomeScreen extends HookConsumerWidget {
         controller: scrollController,
         slivers: [
           buildAppBar(),
+          SliverPersistentHeader(
+              delegate: CustomAppBar(
+                child: buildSearchBar(),
+                expandedHeight: 50,
+              ),
+              pinned: true),
           buildText(
               context: context,
               text: "Offers for you",
@@ -202,45 +210,59 @@ class HomeScreen extends HookConsumerWidget {
   }
 
   Widget buildAppBar() {
-    return SliverAppBar(
+    return const SliverAppBar(
         pinned: true,
         stretch: true,
-        flexibleSpace: const AppHeader(maxHeight: 200, minHeight: 80),
-        bottom: buildSearchBar(),
-        expandedHeight: 200);
+        flexibleSpace: AppHeader(maxHeight: 200, minHeight: 80),
+        expandedHeight: 150);
   }
 
-  PreferredSize buildSearchBar() {
-    return PreferredSize(
-      preferredSize: const Size.fromHeight(40),
-      child: Stack(
-        children: [
-          Positioned.fill(
-            bottom: 0,
-            top: 40,
-            child: ColoredBox(
-                color: Colors.white,
-                child: SizedBox.fromSize(size: const Size.fromHeight(40))),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Card(
-              elevation: 2,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25),
+  Widget buildSearchBar() {
+    return Stack(
+      children: [
+        Positioned.fill(
+            bottom: 20,
+            top: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                color: orangeColor,
               ),
-              child: const TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  prefixIcon: Icon(Icons.search),
-                  hintText: "Search...",
-                  hintStyle: TextStyle(color: Colors.grey),
-                ),
+            )),
+        Positioned.fill(
+            bottom: 20,
+            top: 0,
+            child: Container(
+                decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.black.withOpacity(0.7),
+                  Colors.black.withOpacity(0.74),
+                ],
+              ),
+            ))),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Card(
+            elevation: 2,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: const TextField(
+              textAlignVertical: TextAlignVertical.bottom,
+              textAlign: TextAlign.start,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                prefixIcon: Icon(Icons.search),
+                hintText: "Search...",
+                labelStyle: TextStyle(color: Colors.grey),
+                hintStyle: TextStyle(color: Colors.grey),
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
