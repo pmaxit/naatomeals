@@ -1,17 +1,31 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
-class AppHeader extends StatelessWidget {
+class AppHeader extends StatefulWidget {
   final double maxHeight;
   final double minHeight;
 
   const AppHeader({Key? key, required this.maxHeight, required this.minHeight})
       : super(key: key);
 
+  @override
+  State<AppHeader> createState() => _AppHeaderState();
+}
+
+class _AppHeaderState extends State<AppHeader> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   double _calculateExpandRatio(BoxConstraints constraints) {
-    var expandRatio =
-        (constraints.maxHeight - minHeight) / (maxHeight - minHeight);
-    if (expandRatio > 1.0) expandRatio = 1.0;
-    if (expandRatio < 0.0) expandRatio = 0.0;
+    var expandRatio = clampDouble(
+        (constraints.maxHeight - widget.minHeight - kToolbarHeight - 20) /
+            (widget.maxHeight - widget.minHeight),
+        0,
+        1);
+
     return expandRatio;
   }
 
@@ -21,7 +35,7 @@ class AppHeader extends StatelessWidget {
           AlignmentTween(begin: Alignment.bottomLeft, end: Alignment.bottomLeft)
               .evaluate(animation),
       child: Padding(
-        padding: const EdgeInsets.only(left: 16),
+        padding: const EdgeInsets.only(left: 16, bottom: 40),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,7 +45,7 @@ class AppHeader extends StatelessWidget {
               // medium style
               style: TextStyle(
                 fontFamily: 'poppins',
-                fontSize: Tween<double>(begin: 5, end: 14).evaluate(animation),
+                fontSize: Tween<double>(begin: 10, end: 14).evaluate(animation),
                 color: Colors.white,
                 fontWeight: FontWeight.w400,
               ),
@@ -85,34 +99,7 @@ class AppHeader extends StatelessWidget {
         _buildAvatar(animation),
 
         _buildTitle(animation),
-        // add text box here to search for restaurant
-        _buildSearchBar(constraints),
       ]);
     });
-  }
-
-  Widget _buildSearchBar(BoxConstraints constraints) {
-    return Positioned(
-      top: constraints.maxHeight - 30,
-      left: 16,
-      right: 16,
-      child: Opacity(
-        opacity: 1,
-        child: Card(
-          elevation: 2,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
-          ),
-          child: const TextField(
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              prefixIcon: Icon(Icons.search),
-              hintText: "Search...",
-              hintStyle: TextStyle(color: Colors.grey),
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }

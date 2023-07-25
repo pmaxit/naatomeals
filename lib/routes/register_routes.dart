@@ -8,6 +8,6 @@ Map<String, WidgetBuilder> routesApp = {
   Routes.welcomeScreen: (context) => const WelcomeScreen(),
   Routes.loginScreen: (context) => const LoginScreen(),
   Routes.registerScreen: (context) => const RegisterScreen(),
-  Routes.homeScreen: (context) => const HomeScreen(),
+  Routes.homeScreen: (context) => HomeScreen(),
   Routes.onboarding: (context) => const FirstScreen(),
 };

@@ -1,33 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:naatomeals/data/models/restaurant_list.dart';
+import 'package:sliver_tools/sliver_tools.dart';
 import '../../data/api/restaurant_service.dart';
 import 'widgets/custom_appbar.dart';
 
 class HomeScreen extends HookConsumerWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
+
+  void _snapAppBar(ScrollController scrollController) {
+    if (scrollController.offset > 200) {
+      return;
+    }
+    if (scrollController.offset > 100) {
+      Future.microtask(() => scrollController.animateTo(200,
+          duration: const Duration(milliseconds: 100), curve: Curves.easeIn));
+    } else {
+      Future.microtask(() => scrollController.animateTo(0,
+          duration: const Duration(milliseconds: 100), curve: Curves.easeIn));
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final restaurantListResponse = ref.watch(restaurantList);
+    final scrollController = useScrollController();
 
     return Scaffold(
-        body: CustomScrollView(
-      slivers: [
-        buildAppBar(),
-        buildText(
-            context: context,
-            text: "Offers for you",
-            padding: const EdgeInsets.only(left: 20, top: 30, right: 20),
-            showRightSide: true),
-        buildRestaurantList(restaurantListResponse),
-        buildText(
-            context: context,
-            text: "Popular Restaurants",
-            padding: const EdgeInsets.only(left: 20, top: 30, right: 20),
-            showRightSide: true),
-        buildRestaurantList(restaurantListResponse),
-      ],
+        body: NotificationListener<ScrollEndNotification>(
+      onNotification: (notification) {
+        _snapAppBar(scrollController);
+        return true;
+      },
+      child: CustomScrollView(
+        controller: scrollController,
+        slivers: [
+          buildAppBar(),
+          buildText(
+              context: context,
+              text: "Offers for you",
+              padding: const EdgeInsets.only(left: 20, top: 30, right: 20),
+              showRightSide: true),
+          buildRestaurantList(restaurantListResponse),
+          buildText(
+              context: context,
+              text: "Popular Restaurants",
+              padding: const EdgeInsets.only(left: 20, top: 30, right: 20),
+              showRightSide: true),
+          buildRestaurantList(restaurantListResponse),
+          buildBottomPage()
+        ],
+      ),
     ));
   }
 
@@ -137,7 +161,7 @@ class HomeScreen extends HookConsumerWidget {
                             buildCard(),
                             Text(
                               '  ${data.restaurants[index].name}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontFamily: 'poppins',
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400,
@@ -158,11 +182,65 @@ class HomeScreen extends HookConsumerWidget {
     );
   }
 
+  Widget buildBottomPage() {
+    return SliverFixedExtentList(
+        delegate: SliverChildBuilderDelegate((context, index) {
+          return const Card(
+            elevation: 5,
+            child: ListTile(
+              leading: CircleAvatar(
+                backgroundImage: NetworkImage(
+                    'https://restaurant-api.dicoding.dev/images/medium/14'),
+              ),
+              title: Text('Restaurant Name'),
+              subtitle: Text('Restaurant Address'),
+              trailing: Icon(Icons.keyboard_arrow_right),
+            ),
+          );
+        }),
+        itemExtent: 100);
+  }
+
   Widget buildAppBar() {
-    return const SliverAppBar(
+    return SliverAppBar(
         pinned: true,
         stretch: true,
-        flexibleSpace: AppHeader(maxHeight: 200, minHeight: 80),
+        flexibleSpace: const AppHeader(maxHeight: 200, minHeight: 80),
+        bottom: buildSearchBar(),
         expandedHeight: 200);
+  }
+
+  PreferredSize buildSearchBar() {
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(40),
+      child: Stack(
+        children: [
+          Positioned.fill(
+            bottom: 0,
+            top: 40,
+            child: ColoredBox(
+                color: Colors.white,
+                child: SizedBox.fromSize(size: const Size.fromHeight(40))),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Card(
+              elevation: 2,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: const TextField(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  prefixIcon: Icon(Icons.search),
+                  hintText: "Search...",
+                  hintStyle: TextStyle(color: Colors.grey),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
