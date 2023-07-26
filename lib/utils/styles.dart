@@ -30,6 +30,7 @@ const Color whiteColor = Colors.white;
 
 const String poppins = 'poppins';
 Color inputBackgroundColor = HexColor("#F5F5F5");
+Color appBarColor = HexColor('#E51A27');
 
 TextTheme textTheme = TextTheme(
   displayLarge: const TextStyle(

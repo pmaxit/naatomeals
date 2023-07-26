@@ -1,268 +1,171 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:naatomeals/data/models/restaurant_list.dart';
 import 'package:naatomeals/utils/styles.dart';
-import 'package:sliver_tools/sliver_tools.dart';
-import '../../data/api/restaurant_service.dart';
-import 'widgets/custom_appbar.dart';
-import 'widgets/custom_bar.dart';
 
-class HomeScreen extends HookConsumerWidget {
-  HomeScreen({super.key});
+import 'widgets/restaurant_card.dart';
 
-  void _snapAppBar(ScrollController scrollController) {
-    if (scrollController.offset > 200) {
-      return;
-    }
-    if (scrollController.offset > 100) {
-      Future.microtask(() => scrollController.animateTo(200,
-          duration: const Duration(milliseconds: 100), curve: Curves.easeIn));
-    } else {
-      Future.microtask(() => scrollController.animateTo(0,
-          duration: const Duration(milliseconds: 100), curve: Curves.easeIn));
-    }
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  double searchTopBarPosition = 140;
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final restaurantListResponse = ref.watch(restaurantList);
-    final scrollController = useScrollController();
-
+  Widget build(BuildContext context) {
     return Scaffold(
-        body: NotificationListener<ScrollEndNotification>(
+        body: NotificationListener<ScrollNotification>(
       onNotification: (notification) {
-        _snapAppBar(scrollController);
+        // get the current position
+        final currentPixels = notification.metrics.pixels;
+        if (currentPixels < 70) {
+          setState(() {
+            searchTopBarPosition = 140 - currentPixels;
+          });
+        }
         return true;
       },
-      child: CustomScrollView(
-        controller: scrollController,
-        slivers: [
-          buildAppBar(),
-          SliverPersistentHeader(
-              delegate: CustomAppBar(
-                child: buildSearchBar(),
-                expandedHeight: 50,
-              ),
-              pinned: true),
-          buildText(
-              context: context,
-              text: "Offers for you",
-              padding: const EdgeInsets.only(left: 20, top: 30, right: 20),
-              showRightSide: true),
-          buildRestaurantList(restaurantListResponse),
-          buildText(
-              context: context,
-              text: "Popular Restaurants",
-              padding: const EdgeInsets.only(left: 20, top: 30, right: 20),
-              showRightSide: true),
-          buildRestaurantList(restaurantListResponse),
-          buildBottomPage()
+      child: Stack(
+        children: [
+          CustomScrollView(
+              slivers: [_buildAppBar2(context), _buildBody(context)]),
+          _buildSearchBar(context)
         ],
       ),
     ));
   }
 
-  Widget buildRestaurantList(
-      AsyncValue<RestaurantListResponse> restaurantListResponse) {
-    return restaurantListResponse.when(
-      data: (data) {
-        return buildPage(restaurantListResponse);
-      },
-      loading: () => const SliverToBoxAdapter(
-          child: Center(child: CircularProgressIndicator())),
-      error: (error, stackTrace) =>
-          SliverToBoxAdapter(child: Center(child: Text(error.toString()))),
-    );
-  }
-
-  Widget buildText(
-      {required BuildContext context,
-      required String text,
-      required EdgeInsets padding,
-      bool showRightSide = false}) {
-    // textheme
-    final textTheme = Theme.of(context).textTheme;
-    return SliverPadding(
-        padding: padding,
-        sliver: SliverList(
-            delegate: SliverChildListDelegate([
-          // text widget with Offers for you
-          Row(
-            children: [
-              Text(
-                text,
-                style: textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const Spacer(),
-              if (showRightSide)
-                TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    "View All",
-                    style: TextStyle(
-                      fontFamily: 'poppins',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.red,
-                    ),
-                  ),
-                ),
-            ],
+  Widget _buildSearchBar(BuildContext context) {
+    return Positioned(
+      left: 40,
+      right: 20,
+      top: searchTopBarPosition,
+      child: Card(
+        elevation: 3,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shadowColor: Theme.of(context).shadowColor,
+        child: TextField(
+          decoration: InputDecoration(
+            hintText: 'What are you carving for?',
+            prefixIcon: Icon(Icons.search, color: orangeColor),
+            fillColor: Theme.of(context).scaffoldBackgroundColor,
           ),
-        ])));
-  }
-
-  Card buildCard() {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      elevation: 5,
-      child: Stack(
-        children: [
-          Container(
-            height: 130,
-            width: 140,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              image: DecorationImage(
-                image: Image.asset("assets/images/5.png").image,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.transparent,
-                  Colors.black.withOpacity(0.7),
-                ],
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
 
-  Widget buildPage(AsyncValue<RestaurantListResponse> restaurantListResponse) {
-    return restaurantListResponse.when(
-      data: (data) {
-        return SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 16, top: 5, right: 16),
-            child: SizedBox(
-              height: 155,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: data.restaurants.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 16),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            buildCard(),
-                            Text(
-                              '  ${data.restaurants[index].name}',
-                              style: const TextStyle(
-                                fontFamily: 'poppins',
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black,
-                              ),
-                            )
-                          ]),
-                    );
-                  }),
-            ),
-          ),
-        );
-      },
-      loading: () => const Center(
-          child: SliverToBoxAdapter(child: CircularProgressIndicator())),
-      error: (error, stackTrace) =>
-          SliverToBoxAdapter(child: Center(child: Text(error.toString()))),
+  Widget _build_heading(String heading, String subHeading) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          heading,
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+        TextButton(
+            onPressed: () {},
+            child: Text(
+              subHeading,
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: Colors.red,
+                  ),
+            ))
+      ],
     );
   }
 
-  Widget buildBottomPage() {
-    return SliverFixedExtentList(
-        delegate: SliverChildBuilderDelegate((context, index) {
-          return const Card(
-            elevation: 5,
-            child: ListTile(
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    'https://restaurant-api.dicoding.dev/images/medium/14'),
-              ),
-              title: Text('Restaurant Name'),
-              subtitle: Text('Restaurant Address'),
-              trailing: Icon(Icons.keyboard_arrow_right),
-            ),
-          );
-        }),
-        itemExtent: 100);
+  Widget _buildBody(BuildContext context) {
+    return SliverList(
+        delegate: SliverChildListDelegate([
+      const SizedBox(
+        height: 40,
+      ),
+      _build_heading("Offers for you", "See all"),
+      const SizedBox(
+        height: 20,
+      ),
+      _build_restaurant_cards(),
+      _build_heading("Offers for you", "See all"),
+      const SizedBox(
+        height: 20,
+      ),
+      _build_restaurant_cards(),
+    ]));
   }
 
-  Widget buildAppBar() {
-    return const SliverAppBar(
-        pinned: true,
-        stretch: true,
-        flexibleSpace: AppHeader(maxHeight: 200, minHeight: 80),
-        expandedHeight: 150);
+  Widget _build_restaurant_cards() {
+    return SizedBox(
+      height: 200,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: 10,
+        itemBuilder: (context, index) {
+          return Card(
+              elevation: 3,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              shadowColor: Colors.black,
+              child: Text("Restaurant"));
+        },
+      ),
+    );
   }
 
-  Widget buildSearchBar() {
-    return Stack(
-      children: [
-        Positioned.fill(
-            bottom: 20,
-            top: 0,
-            child: Container(
-              decoration: BoxDecoration(
-                color: orangeColor,
+  Widget _buildAppBar2(BuildContext context) {
+    return SliverAppBar(
+      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+      expandedHeight: 175,
+      primary: false,
+      pinned: true,
+      collapsedHeight: 100,
+      stretch: true,
+      title: const Text("Naato Meals"),
+      flexibleSpace: FlexibleSpaceBar(
+          background:
+              Stack(fit: StackFit.expand, clipBehavior: Clip.none, children: [
+        Positioned(
+            left: 24,
+            top: 83,
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(
+                "Deliver To",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
               ),
-            )),
-        Positioned.fill(
-            bottom: 20,
-            top: 0,
-            child: Container(
-                decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.black.withOpacity(0.7),
-                  Colors.black.withOpacity(0.74),
-                ],
-              ),
-            ))),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Card(
-            elevation: 2,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25),
-            ),
-            child: const TextField(
-              textAlignVertical: TextAlignVertical.bottom,
-              textAlign: TextAlign.start,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                prefixIcon: Icon(Icons.search),
-                hintText: "Search...",
-                labelStyle: TextStyle(color: Colors.grey),
-                hintStyle: TextStyle(color: Colors.grey),
-              ),
+              const SizedBox(height: 5),
+              Text(
+                "123 Main St. Dallas, TX",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+              )
+            ])),
+        Positioned(
+          // 264 to percentage of width of 430
+
+          left: MediaQuery.of(context).size.width * 264.0 / 430.0,
+          top: -20,
+          child: Opacity(
+            opacity: 0.5,
+            child: Image.asset(
+              'assets/images/vector.png',
+              fit: BoxFit.cover,
             ),
           ),
-        ),
-      ],
+        )
+      ])),
     );
   }
 }

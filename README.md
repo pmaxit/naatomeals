@@ -53,3 +53,11 @@ New thing I found on textfield is we can align the text direction
 ```
 This fixes the textfield text alignment. We can decide if it's in middle or left.
 
+
+## Update 26th July
+- Found another way to achieve this
+- Stack
+   - custom scrollview
+   - search bar
+
+This is better solution than previous since it doesn't involve any hack

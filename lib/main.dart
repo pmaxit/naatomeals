@@ -36,11 +36,6 @@ class MyApp extends HookConsumerWidget {
       theme: prProvider.themeData,
       initialRoute: Routes.homeScreen,
       routes: routesApp,
-      home: const Scaffold(
-        body: Center(
-          child: Text('Naato Meals'),
-        ),
-      ),
     );
   }
 }

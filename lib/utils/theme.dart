@@ -5,8 +5,9 @@ class AppTheme {
   static ThemeData lightTheme = ThemeData.light().copyWith(
     colorScheme: ColorScheme.fromSwatch().copyWith(
         primary: orangeColor, onPrimary: blackColor, secondary: orangeColor),
-    appBarTheme: const AppBarTheme(
+    appBarTheme: AppBarTheme(
       elevation: 0,
+      backgroundColor: appBarColor,
     ),
     scaffoldBackgroundColor: whiteColor,
     textTheme: textTheme.apply(
