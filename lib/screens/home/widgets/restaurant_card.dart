@@ -1,62 +1,86 @@
 import 'package:flutter/material.dart';
+import 'package:naatomeals/utils/styles.dart';
 
 class RestaurantCard extends StatelessWidget {
-  const RestaurantCard({super.key});
+  final double width = 175;
+  final double height = 110;
+  final String? offerMessage;
+  const RestaurantCard({super.key, this.offerMessage});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      shadowColor: Theme.of(context).shadowColor,
-      child: Container(
-        height: 200,
-        width: 200,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          image: const DecorationImage(
-            image: NetworkImage(
-                'https://images.unsplash.com/photo-1612835362596-4b6b7e9b0b0f?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cmVzdGF1cmFudCUyMGNhcmR8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Stack(
-          children: [
-            Positioned(
-              bottom: 0,
-              child: Container(
-                height: 100,
-                width: 200,
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20)),
-                  color: Colors.white.withOpacity(0.8),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                        'Restaurant Name',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w600),
-                      ),
-                      Text(
-                        'Restaurant Address',
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w400),
-                      ),
-                    ],
-                  ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Card(
+            elevation: 3,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            child: Container(
+              width: width,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                image: const DecorationImage(
+                  image: AssetImage('assets/images/1.png'),
+                  fit: BoxFit.cover,
                 ),
               ),
+              child: Stack(children: [
+                Positioned(
+                    left: 0,
+                    top: 10,
+                    child: Visibility(
+                      visible: offerMessage != null,
+                      child: Container(
+                          width: 70,
+                          height: 24,
+                          decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.only(
+                                  topRight: Radius.circular(10),
+                                  bottomRight: Radius.circular(10)),
+                              color: yellowColor20),
+                          child: Center(
+                            child: Text(offerMessage ?? '',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelMedium!
+                                    .copyWith(
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600)),
+                          )),
+                    )),
+              ]),
             ),
-          ],
+          ),
         ),
-      ),
+        const SizedBox(height: 10),
+        Padding(
+          padding: const EdgeInsets.only(left: 5),
+          child: Text(
+            "The Indian Kitchen",
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .copyWith(color: Colors.black, fontWeight: FontWeight.bold),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 5),
+          child: Row(
+            children: [
+              Icon(Icons.my_location_rounded, color: orangeColor, size: 16),
+              const SizedBox(width: 5),
+              Text("3.5 Km away",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: Colors.black)),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:naatomeals/screens/home/widgets/cusine_card.dart';
 import 'package:naatomeals/utils/styles.dart';
 
 import 'widgets/restaurant_card.dart';
@@ -12,34 +13,88 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   double searchTopBarPosition = 140;
+  int currentIndex = 0;
+  late ScrollController _scrollController;
+
+  void _scrollListener() {
+    if (_scrollController.offset < 70) {
+      setState(() {
+        searchTopBarPosition = 140 - _scrollController.offset;
+      });
+    }
+  }
 
   @override
   void initState() {
+    _scrollController = ScrollController(initialScrollOffset: 1);
+    _scrollController.addListener(_scrollListener);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  Widget _get_home_page() {
+    return Stack(
+      children: [
+        CustomScrollView(controller: _scrollController, slivers: [
+          _buildAppBar2(context),
+          SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              sliver: _buildBody(context)),
+          SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              sliver: _build_restaurant_list()),
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Container(
+              color: Colors.red,
+            ),
+          )
+        ]),
+        _buildSearchBar(context)
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: NotificationListener<ScrollNotification>(
-      onNotification: (notification) {
-        // get the current position
-        final currentPixels = notification.metrics.pixels;
-        if (currentPixels < 70) {
-          setState(() {
-            searchTopBarPosition = 140 - currentPixels;
-          });
-        }
-        return true;
-      },
-      child: Stack(
-        children: [
-          CustomScrollView(
-              slivers: [_buildAppBar2(context), _buildBody(context)]),
-          _buildSearchBar(context)
-        ],
-      ),
-    ));
+      body: currentIndex == 0
+          ? _get_home_page()
+          : Container(
+              // select random color
+              color: Colors.primaries[currentIndex],
+              child: Center(
+                child: Text("New Page $currentIndex",
+                    style: Theme.of(context).textTheme.bodyLarge!),
+              )),
+      bottomNavigationBar: BottomNavigationBar(
+          currentIndex: currentIndex,
+          selectedItemColor: orangeColor,
+          unselectedItemColor: Colors.grey,
+          showUnselectedLabels: true,
+          onTap: (value) {
+            setState(() {
+              currentIndex = value;
+            });
+          },
+          type: BottomNavigationBarType.fixed,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(icon: Icon(Icons.menu), label: 'Orders'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.message), label: 'Messages'),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          ]),
+    );
   }
 
   Widget _buildSearchBar(BuildContext context) {
@@ -66,16 +121,18 @@ class _HomeScreenState extends State<HomeScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          heading,
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
+        Text(heading,
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                )),
         TextButton(
             onPressed: () {},
             child: Text(
               subHeading,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     color: Colors.red,
+                    fontWeight: FontWeight.bold,
                   ),
             ))
       ],
@@ -93,27 +150,58 @@ class _HomeScreenState extends State<HomeScreen> {
         height: 20,
       ),
       _build_restaurant_cards(),
-      _build_heading("Offers for you", "See all"),
       const SizedBox(
         height: 20,
       ),
-      _build_restaurant_cards(),
+      _build_heading("What's on your mind?", "See all"),
+
+      const SizedBox(
+        height: 20,
+      ),
+
+      _build_cusine_lists(),
+      const SizedBox(
+        height: 20,
+      ),
+      _build_heading("Top Kitchen's Near You", "See all"),
+      const SizedBox(
+        height: 20,
+      ),
+      //_build_restaurant_cards(),
     ]));
+  }
+
+  Widget _build_cusine_lists() {
+    return SizedBox(
+        height: 75,
+        child: ListView.builder(
+          itemExtent: 70,
+          shrinkWrap: false,
+          scrollDirection: Axis.horizontal,
+          itemCount: 10,
+          itemBuilder: (context, index) {
+            return Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: CuisineCard());
+          },
+        ));
   }
 
   Widget _build_restaurant_cards() {
     return SizedBox(
-      height: 200,
+      height: 150,
       child: ListView.builder(
+        itemExtent: 185,
+        shrinkWrap: false,
         scrollDirection: Axis.horizontal,
-        itemCount: 10,
+        itemCount: 4,
         itemBuilder: (context, index) {
-          return Card(
-              elevation: 3,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              shadowColor: Colors.black,
-              child: Text("Restaurant"));
+          return Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: RestaurantCard(
+              offerMessage: index % 2 != 0 ? null : "50% Off",
+            ),
+          );
         },
       ),
     );
@@ -167,5 +255,65 @@ class _HomeScreenState extends State<HomeScreen> {
         )
       ])),
     );
+  }
+
+  Widget _build_restaurant_list() {
+    return SliverFixedExtentList(
+        itemExtent: 85,
+        delegate: SliverChildBuilderDelegate((context, index) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Row(children: [
+              AspectRatio(
+                aspectRatio: 1,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    image: const DecorationImage(
+                      image: AssetImage('assets/images/1.png'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 20),
+              Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      " Priyanka's Kitchen",
+                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      " Speciality: Punjabi",
+                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                          color: Colors.black, fontWeight: FontWeight.normal),
+                    ),
+                    const SizedBox(height: 2),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.add_location,
+                          color: orangeColor,
+                          size: 16,
+                        ),
+                        Text(
+                          "3.5 Km Away",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal),
+                        ),
+                      ],
+                    ),
+                  ])
+            ]),
+          );
+        }, childCount: 10));
   }
 }
