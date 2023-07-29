@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:naatomeals/screens/home/widgets/cusine_card.dart';
+import 'package:naatomeals/screens/restaurants/restaurant_page.dart';
 import 'package:naatomeals/utils/styles.dart';
 
 import 'widgets/restaurant_card.dart';
@@ -196,10 +197,15 @@ class _HomeScreenState extends State<HomeScreen> {
         scrollDirection: Axis.horizontal,
         itemCount: 4,
         itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: RestaurantCard(
-              offerMessage: index % 2 != 0 ? null : "50% Off",
+          return InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, 'restaurant_page');
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: RestaurantCard(
+                offerMessage: index % 2 != 0 ? null : "50% Off",
+              ),
             ),
           );
         },

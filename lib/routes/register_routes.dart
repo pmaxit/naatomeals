@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:naatomeals/screens/restaurants/restaurant_page.dart';
 
 import '../screens/screens.dart';
 import 'routes.dart';
@@ -10,4 +11,5 @@ Map<String, WidgetBuilder> routesApp = {
   Routes.registerScreen: (context) => const RegisterScreen(),
   Routes.homeScreen: (context) => HomeScreen(),
   Routes.onboarding: (context) => const FirstScreen(),
+  Routes.restaurantPage: (context) => const RestaurantsDetailPage(),
 };
