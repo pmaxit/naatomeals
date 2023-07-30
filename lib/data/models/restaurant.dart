@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'menu.dart';
+
 class Restaurant {
   final String id;
   final String name;
@@ -7,12 +9,14 @@ class Restaurant {
   final String pictureId;
   final String city;
   final dynamic rating;
-  final Menus menus;
+  final RestaurantMenu menus;
+  final String address;
 
   static const String jsonFile = 'assets/json/restaurant.json';
 
   Restaurant({
     required this.id,
+    required this.address,
     required this.name,
     required this.description,
     required this.pictureId,
@@ -24,28 +28,25 @@ class Restaurant {
   factory Restaurant.fromJson(Map<String, dynamic> restaurantList) =>
       Restaurant(
         id: restaurantList['id'],
+        address: restaurantList['address'],
         name: restaurantList['name'],
         description: restaurantList['description'],
         pictureId: restaurantList['pictureId'],
         city: restaurantList['city'],
         rating: restaurantList['rating'],
-        menus: Menus.fromJson(restaurantList['menus']),
+        menus: RestaurantMenu.fromJson(restaurantList['menus']),
       );
-}
 
-class Menus {
-  final List<dynamic> foods;
-  final List<dynamic> drinks;
-
-  Menus({
-    required this.foods,
-    required this.drinks,
-  });
-
-  factory Menus.fromJson(Map<String, dynamic> menus) => Menus(
-        foods: menus['foods'],
-        drinks: menus['drinks'],
-      );
+  //toJson
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "description": description,
+        "pictureId": pictureId,
+        "city": city,
+        "rating": rating,
+        "menus": menus.toJson(),
+      };
 }
 
 List<Restaurant> parseRestaurant(String? json) {
@@ -72,14 +73,12 @@ class PopularItems {
 }
 
 void addPopularItem(nameItem, ratingRestaurant, itemType, nameRestaurant) {
-  popularItemsList.add(
-    PopularItems(
-      nameItem: nameItem,
-      ratingRestaurant: ratingRestaurant,
-      itemType: itemType,
-      nameRestaurant: nameRestaurant,
-    ),
-  );
+  popularItemsList.add(PopularItems(
+    nameItem: nameItem,
+    ratingRestaurant: ratingRestaurant,
+    itemType: itemType,
+    nameRestaurant: nameRestaurant,
+  ));
 }
 
 List<PopularItems> popularItemsList = [];

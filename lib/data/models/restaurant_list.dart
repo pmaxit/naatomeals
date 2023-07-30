@@ -1,3 +1,7 @@
+import 'package:naatomeals/data/models/restaurant.dart';
+
+import 'menu.dart';
+
 class RestaurantListResponse {
   RestaurantListResponse({
     required this.error,
@@ -10,7 +14,7 @@ class RestaurantListResponse {
   final bool error;
   final String? message;
   final int? count;
-  final List<RestaurantList> restaurants;
+  final List<Restaurant> restaurants;
   final int? statusCode;
 
   factory RestaurantListResponse.fromJson(Map<String, dynamic> json) =>
@@ -19,8 +23,8 @@ class RestaurantListResponse {
         message: json['message'],
         count: json['count'],
         statusCode: json['statusCode'],
-        restaurants: List<RestaurantList>.from(json['restaurants']
-            .map((restaurant) => RestaurantList.fromJson(restaurant))),
+        restaurants: List<Restaurant>.from(json['restaurants']
+            .map((restaurant) => Restaurant.fromJson(restaurant))),
       );
 
   factory RestaurantListResponse.fromError(String error) =>
@@ -35,42 +39,56 @@ class RestaurantListResponse {
         "error": error,
         "message": message,
         "count": count,
-        "restaurants": List<dynamic>.from(restaurants.map((x) => x.toJson())),
+        "restaurants":
+            List<Restaurant>.from(restaurants.map((x) => x.toJson())),
       };
 }
 
-class RestaurantList {
-  RestaurantList({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.pictureId,
-    required this.city,
-    required this.rating,
-  });
+Restaurant dummyRestaurant = Restaurant(
+  id: 'rqdv5juczeskfw1e867',
+  name: 'Melting Pot',
+  address: 'Jln. Pandeglang no 19',
+  description:
+      'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. ...',
+  pictureId: '14',
+  city: 'Medan',
+  rating: 4.2,
+  menus: RestaurantMenu(
+    name: MenuCategory.lunch,
+    foods: [
+      MenusItem(
+        name: 'Paket rosemary',
+      ),
+      MenusItem(
+        name: 'Toastie salmon',
+      ),
+      MenusItem(
+        name: 'Bebek crepes',
+      ),
+      MenusItem(
+        name: 'Salad lengkeng',
+      ),
+    ],
+    drinks: [
+      MenusItem(
+        name: 'Jus tomat',
+      ),
+      MenusItem(
+        name: 'Minuman soda',
+      ),
+      MenusItem(
+        name: 'Jus apel',
+      ),
+      MenusItem(
+        name: 'Jus mangga',
+      ),
+    ],
+  ),
+);
 
-  final String id;
-  final String name;
-  final String description;
-  final String pictureId;
-  final String city;
-  final double rating;
-
-  factory RestaurantList.fromJson(Map<String, dynamic> json) => RestaurantList(
-        id: json['id'],
-        name: json['name'],
-        description: json['description'],
-        pictureId: json['pictureId'],
-        city: json['city'],
-        rating: json['rating'].toDouble(),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "description": description,
-        "pictureId": pictureId,
-        "city": city,
-        "rating": rating,
-      };
-}
+RestaurantListResponse dummyRestaurantListResponse = RestaurantListResponse(
+    error: false,
+    message: null,
+    count: 20,
+    statusCode: 200,
+    restaurants: List.generate(5, (index) => dummyRestaurant));

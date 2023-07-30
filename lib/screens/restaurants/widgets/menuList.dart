@@ -15,6 +15,6 @@ class RestaurantMenuList extends StatelessWidget {
         itemExtent: 150,
         itemCount: 5,
         itemBuilder: (context, index) =>
-            RestaurantMenu(menuCategory: MenuCategory.breakfast));
+            const RestaurantCard(menuCategory: MenuCategory.breakfast));
   }
 }

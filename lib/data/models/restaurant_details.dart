@@ -1,3 +1,5 @@
+import 'menu.dart';
+
 class RestaurantDetailResponse {
   RestaurantDetailResponse({
     required this.error,
@@ -39,7 +41,7 @@ class RestaurantDetail {
   final String pictureId;
   final double rating;
   final List<Category>? categories;
-  final Menus? menus;
+  final RestaurantMenu? menus;
   final List<CustomerReview>? customerReviews;
 
   factory RestaurantDetail.fromJson(Map<String, dynamic> json) =>
@@ -53,7 +55,7 @@ class RestaurantDetail {
         rating: json['rating'].toDouble(),
         categories: List<Category>.from(
             json['categories'].map((item) => Category.fromJson(item))),
-        menus: Menus.fromJson(json['menus']),
+        menus: RestaurantMenu.fromJson(json['menus']),
         customerReviews: List<CustomerReview>.from(json['customerReviews']
             .map((item) => CustomerReview.fromJson(item))),
       );
@@ -73,60 +75,5 @@ class RestaurantDetail {
         city: map['city'],
         pictureId: map['pictureId'],
         rating: map['rating'].toDouble(),
-      );
-}
-
-class Category {
-  Category({
-    required this.name,
-  });
-
-  final String name;
-
-  factory Category.fromJson(Map<String, dynamic> json) =>
-      Category(name: json['name']);
-}
-
-class Menus {
-  Menus({
-    required this.foods,
-    required this.drinks,
-  });
-
-  final List<MenusItem> foods;
-  final List<MenusItem> drinks;
-
-  factory Menus.fromJson(Map<String, dynamic> json) => Menus(
-        foods: List<MenusItem>.from(
-            json['foods'].map((item) => MenusItem.fromJson(item))),
-        drinks: List<MenusItem>.from(
-            json['drinks'].map((item) => MenusItem.fromJson(item))),
-      );
-}
-
-class MenusItem {
-  MenusItem({required this.name});
-
-  final String name;
-
-  factory MenusItem.fromJson(Map<String, dynamic> json) =>
-      MenusItem(name: json['name']);
-}
-
-class CustomerReview {
-  CustomerReview({
-    required this.name,
-    required this.review,
-    required this.date,
-  });
-
-  final String name;
-  final String review;
-  final String date;
-
-  factory CustomerReview.fromJson(Map<String, dynamic> json) => CustomerReview(
-        name: json['name'],
-        review: json['review'],
-        date: json['date'],
       );
 }

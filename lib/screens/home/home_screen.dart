@@ -221,7 +221,6 @@ class _HomeScreenState extends State<HomeScreen> {
       pinned: true,
       collapsedHeight: 100,
       stretch: true,
-      title: const Text("Naato Meals"),
       flexibleSpace: FlexibleSpaceBar(
           background:
               Stack(fit: StackFit.expand, clipBehavior: Clip.none, children: [
