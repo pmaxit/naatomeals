@@ -3,13 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:naatomeals/routes/routes.dart';
-import 'package:naatomeals/utils/helper/shared_preferences.dart';
 import 'package:naatomeals/utils/provider/shared_preferences_providers.dart';
-import 'package:provider/provider.dart';
-import 'package:desktop_window/desktop_window.dart' as window_size;
 
 import 'routes/register_routes.dart';
-import 'services/auth.dart';
 import 'utils/navigation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -39,7 +35,7 @@ class MyApp extends HookConsumerWidget {
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
       theme: prProvider.themeData,
-      initialRoute: Routes.wrapperScreen,
+      initialRoute: Routes.splashScreen,
       routes: routesApp,
     );
   }

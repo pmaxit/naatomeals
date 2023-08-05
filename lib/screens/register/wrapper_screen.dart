@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../services/auth.dart';
 import '../home/home_screen.dart';
+import '../splashscreen/splash_screen.dart';
 import 'register_screen.dart';
 
 class Wrapper extends HookConsumerWidget {
@@ -13,7 +14,7 @@ class Wrapper extends HookConsumerWidget {
   Widget _buildContent(User? user) {
     print('>>>>>>>>>>>>>>>>>>>>> user: $user');
     if (user == null) {
-      return const RegisterScreen();
+      return const SplashScreen();
     }
     return const HomeScreen();
   }

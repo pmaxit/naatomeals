@@ -39,7 +39,7 @@ class FirstScreen extends HookWidget {
         if (pageController.page == pages.length - 1) {
           timer.cancel();
           // push to the next screen
-          Navigator.popAndPushNamed(context, 'register_screen');
+          Navigator.popAndPushNamed(context, 'wrapper_screen');
         } else {
           pageController.nextPage(
               duration: const Duration(milliseconds: 300),

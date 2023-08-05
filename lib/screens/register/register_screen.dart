@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:naatomeals/extensions/dynamic_padding.dart';
 
-import '../../utils/styles.dart';
 import '../welcome/widgets/logo.dart';
 import 'register_content.dart';
 
@@ -30,6 +28,7 @@ class RegisterScreen extends HookWidget {
             SliverAppBar(
               pinned: true,
               stretch: true,
+              automaticallyImplyLeading: false,
               expandedHeight: 0.3 * size.height,
               backgroundColor: Colors.transparent,
               flexibleSpace: const FlexibleSpaceBar(stretchModes: [

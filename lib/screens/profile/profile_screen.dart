@@ -37,6 +37,7 @@ class ProfileScreen extends HookConsumerWidget {
       // scrollable
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Text("Profile"),
           titleTextStyle: textTheme.headlineSmall!.copyWith(color: blackColor),
           backgroundColor: Colors.transparent,

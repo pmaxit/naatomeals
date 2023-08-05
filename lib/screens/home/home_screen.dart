@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:naatomeals/screens/home/widgets/cusine_card.dart';
-import 'package:naatomeals/screens/restaurants/restaurant_page.dart';
 import 'package:naatomeals/utils/styles.dart';
 
 import '../profile/profile_screen.dart';
@@ -31,17 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     _scrollController = ScrollController(initialScrollOffset: 1);
     _scrollController.addListener(_scrollListener);
-
-    var db = FirebaseFirestore.instance;
-    print('value////////////////////// $db');
-    var restaurant = db.collection('restaurants').get();
-    print('value////////////////////// $restaurant');
-    // print all documents
-    db.collection('restaurants').get().then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        print(doc["name"]);
-      });
-    });
 
     super.initState();
   }
@@ -87,6 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //context.read(apiServiceProvider);
+
     return Scaffold(
       body: getMappings()[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -236,6 +225,7 @@ class _HomeScreenState extends State<HomeScreen> {
       pinned: true,
       collapsedHeight: 100,
       stretch: true,
+      automaticallyImplyLeading: false,
       flexibleSpace: FlexibleSpaceBar(
           background:
               Stack(fit: StackFit.expand, clipBehavior: Clip.none, children: [

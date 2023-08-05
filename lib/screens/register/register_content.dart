@@ -96,7 +96,7 @@ class RegisterContent extends HookConsumerWidget {
             const Divider(),
             AppButton(
               text: "Sign up",
-              onTap: () {
+              onTap: () async {
                 // auth.signUpWithEmailAndPassword(
                 //   email: emailController.text,
                 //   password: passwordController.text,
@@ -104,7 +104,8 @@ class RegisterContent extends HookConsumerWidget {
                 //   phone: phoneController.text,
                 // );
 
-                auth.signInAnonymously();
+                await auth.signInAnonymously();
+                Navigator.pushNamed(context, 'home_screen');
               },
             ),
             // Signup button
