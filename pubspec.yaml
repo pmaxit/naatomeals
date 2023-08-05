@@ -47,6 +47,12 @@ dependencies:
   smooth_page_indicator: ^1.1.0
   desktop_window: ^0.4.0
   sliver_tools: ^0.2.12
+  cloud_firestore: ^4.8.4
+  firedart: ^0.9.7
+  firebase_core: ^2.15.0
+  firebase_auth: ^4.7.2
+  firebase_database: ^10.2.4
+  firebase_storage: ^11.2.5
 
 dev_dependencies:
   flutter_test:

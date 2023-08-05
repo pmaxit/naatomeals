@@ -1,86 +1,39 @@
-enum MenuCategory {
-  breakfast,
-  lunch,
-  dinner,
-  dessert,
-  drinks,
-  cofee,
-  rice,
-  daal
-}
-
-class Category {
-  Category({
-    required this.name,
-  });
-
+class Cuisines {
   final String name;
 
-  factory Category.fromJson(Map<String, dynamic> json) =>
-      Category(name: json['name']);
+  Cuisines({required this.name});
 }
 
-class RestaurantMenu {
-  RestaurantMenu({
-    required this.name,
-    required this.foods,
-    required this.drinks,
-  });
+class MenuItem {
+  final String image;
+  final num price;
+  final String veg_or_non_veg;
+  final String name;
 
-  final MenuCategory name;
-  final List<MenusItem> foods;
-  final List<MenusItem> drinks;
+  MenuItem(
+      {required this.image,
+      required this.price,
+      required this.veg_or_non_veg,
+      required this.name});
 
-  factory RestaurantMenu.fromJson(Map<String, dynamic> json) => RestaurantMenu(
-        foods: List<MenusItem>.from(
-            json['foods'].map((item) => MenusItem.fromJson(item))),
-        drinks: List<MenusItem>.from(
-            json['drinks'].map((item) => MenusItem.fromJson(item))),
+  // from json
+  factory MenuItem.fromJson(Map<String, dynamic> json) => MenuItem(
+        image: json['image'],
+        price: json['price'],
+        veg_or_non_veg: json['veg_or_non_veg'],
         name: json['name'],
       );
-
-  // toJson
-  Map<String, dynamic> toJson() => {
-        'foods': List<dynamic>.from(foods.map((item) => item.toJson())),
-        'drinks': List<dynamic>.from(drinks.map((item) => item.toJson())),
-      };
 }
 
-class MenusItem {
-  MenusItem({required this.name});
+class Menu {
+  final String category;
+  final List<MenuItem> items;
 
-  final String name;
+  Menu({required this.category, required this.items});
 
-  factory MenusItem.fromJson(Map<String, dynamic> json) =>
-      MenusItem(name: json['name']);
-
-  // toJson
-  Map<String, dynamic> toJson() => {
-        'name': name,
-      };
-}
-
-class CustomerReview {
-  CustomerReview({
-    required this.name,
-    required this.review,
-    required this.date,
-  });
-
-  final String name;
-  final String review;
-  final String date;
-
-  factory CustomerReview.fromJson(Map<String, dynamic> json) => CustomerReview(
-        name: json['name'],
-        review: json['review'],
-        date: json['date'],
+  // from json
+  factory Menu.fromJson(Map<String, dynamic> json) => Menu(
+        category: json['category'],
+        items: json['items'],
       );
-
-  // toJson
-  Map<String, dynamic> toJson() => {
-        'name': name,
-        'review': review,
-        'date': date,
-      };
 }

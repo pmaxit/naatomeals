@@ -197,7 +197,7 @@ class _RestaurantsDetailPageState extends State<RestaurantsDetailPage>
   Widget _tabbarView() {
     return AnimatedBuilder(
         animation: _tabController.animation!,
-        child: const RestaurantMenuList(menuCategory: MenuCategory.breakfast),
+        child: const RestaurantMenuList(),
         builder: (context, child) {
           return FadeTransition(opacity: _animationController, child: child);
         });

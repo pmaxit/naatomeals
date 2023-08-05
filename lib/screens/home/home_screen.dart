@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:naatomeals/screens/home/widgets/cusine_card.dart';
 import 'package:naatomeals/screens/restaurants/restaurant_page.dart';
 import 'package:naatomeals/utils/styles.dart';
 
+import '../profile/profile_screen.dart';
 import 'widgets/restaurant_card.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -29,6 +31,18 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     _scrollController = ScrollController(initialScrollOffset: 1);
     _scrollController.addListener(_scrollListener);
+
+    var db = FirebaseFirestore.instance;
+    print('value////////////////////// $db');
+    var restaurant = db.collection('restaurants').get();
+    print('value////////////////////// $restaurant');
+    // print all documents
+    db.collection('restaurants').get().then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        print(doc["name"]);
+      });
+    });
+
     super.initState();
   }
 
@@ -62,18 +76,19 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Map<int, Widget> getMappings() {
+    return {
+      0: _get_home_page(),
+      1: _get_home_page(),
+      2: _get_home_page(),
+      3: const ProfileScreen(),
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: currentIndex == 0
-          ? _get_home_page()
-          : Container(
-              // select random color
-              color: Colors.primaries[currentIndex],
-              child: Center(
-                child: Text("New Page $currentIndex",
-                    style: Theme.of(context).textTheme.bodyLarge!),
-              )),
+      body: getMappings()[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: currentIndex,
           selectedItemColor: orangeColor,

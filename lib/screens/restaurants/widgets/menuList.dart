@@ -4,8 +4,7 @@ import '../../../data/models/menu.dart';
 import 'menu.dart';
 
 class RestaurantMenuList extends StatelessWidget {
-  final MenuCategory menuCategory;
-  const RestaurantMenuList({super.key, required this.menuCategory});
+  const RestaurantMenuList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +13,6 @@ class RestaurantMenuList extends StatelessWidget {
         physics: NeverScrollableScrollPhysics(),
         itemExtent: 150,
         itemCount: 5,
-        itemBuilder: (context, index) =>
-            const RestaurantCard(menuCategory: MenuCategory.breakfast));
+        itemBuilder: (context, index) => const RestaurantCard());
   }
 }

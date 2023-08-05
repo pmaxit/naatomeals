@@ -1,84 +1,31 @@
-import 'dart:convert';
+import 'dart:ui';
 
 import 'menu.dart';
 
 class Restaurant {
-  final String id;
   final String name;
-  final String description;
-  final String pictureId;
-  final String city;
-  final dynamic rating;
-  final RestaurantMenu menus;
+  final String url;
+  final String imageUrl;
   final String address;
-
-  static const String jsonFile = 'assets/json/restaurant.json';
+  final Image image;
+  final Menu menu;
 
   Restaurant({
-    required this.id,
-    required this.address,
     required this.name,
-    required this.description,
-    required this.pictureId,
-    required this.city,
-    required this.rating,
-    required this.menus,
+    required this.url,
+    required this.imageUrl,
+    required this.address,
+    required this.image,
+    required this.menu,
   });
 
-  factory Restaurant.fromJson(Map<String, dynamic> restaurantList) =>
-      Restaurant(
-        id: restaurantList['id'],
-        address: restaurantList['address'],
-        name: restaurantList['name'],
-        description: restaurantList['description'],
-        pictureId: restaurantList['pictureId'],
-        city: restaurantList['city'],
-        rating: restaurantList['rating'],
-        menus: RestaurantMenu.fromJson(restaurantList['menus']),
+  // from Map
+  factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
+        name: json['name'],
+        url: json['url'],
+        imageUrl: json['imageUrl'],
+        address: json['address'],
+        image: json['image'],
+        menu: Menu.fromJson(json['menu']),
       );
-
-  //toJson
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "description": description,
-        "pictureId": pictureId,
-        "city": city,
-        "rating": rating,
-        "menus": menus.toJson(),
-      };
 }
-
-List<Restaurant> parseRestaurant(String? json) {
-  if (json == null) {
-    return [];
-  }
-
-  final List parsed = jsonDecode(json)['restaurants'];
-  return parsed.map((json) => Restaurant.fromJson(json)).toList();
-}
-
-class PopularItems {
-  final String nameItem;
-  final dynamic ratingRestaurant;
-  final String itemType;
-  final String nameRestaurant;
-
-  PopularItems({
-    required this.nameItem,
-    required this.ratingRestaurant,
-    required this.itemType,
-    required this.nameRestaurant,
-  });
-}
-
-void addPopularItem(nameItem, ratingRestaurant, itemType, nameRestaurant) {
-  popularItemsList.add(PopularItems(
-    nameItem: nameItem,
-    ratingRestaurant: ratingRestaurant,
-    itemType: itemType,
-    nameRestaurant: nameRestaurant,
-  ));
-}
-
-List<PopularItems> popularItemsList = [];

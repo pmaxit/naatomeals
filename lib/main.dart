@@ -9,16 +9,21 @@ import 'package:provider/provider.dart';
 import 'package:desktop_window/desktop_window.dart' as window_size;
 
 import 'routes/register_routes.dart';
+import 'services/auth.dart';
 import 'utils/navigation.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  WidgetsFlutterBinding.ensureInitialized();
-  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-    window_size.DesktopWindow.setMinWindowSize(const Size(460, 950));
-    window_size.DesktopWindow.setMaxWindowSize(const Size(600, 1000));
-  }
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  // if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+  //   window_size.DesktopWindow.setMinWindowSize(const Size(460, 950));
+  //   window_size.DesktopWindow.setMaxWindowSize(const Size(600, 1000));
+  // }
 
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -34,7 +39,7 @@ class MyApp extends HookConsumerWidget {
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
       theme: prProvider.themeData,
-      initialRoute: Routes.homeScreen,
+      initialRoute: Routes.wrapperScreen,
       routes: routesApp,
     );
   }

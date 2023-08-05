@@ -1,34 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:naatomeals/extensions/dynamic_padding.dart';
 
+import '../../utils/styles.dart';
 import '../welcome/widgets/logo.dart';
 import 'register_content.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends HookWidget {
   const RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Container(
-        width: size.width,
         height: size.height,
-        decoration: BoxDecoration(
+        width: size.width,
+        decoration: const BoxDecoration(
           image: DecorationImage(
-            image: const AssetImage("assets/images/14.png"),
+            image: AssetImage("assets/images/Login Back.png"),
             fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-                Colors.black.withOpacity(0.2), BlendMode.dstATop),
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(height: 0.05 * size.height),
-            const Logo(width: 218, height: 148),
-            RegisterContent()
+        child: CustomScrollView(
+          // No bouncing
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            SliverAppBar(
+              pinned: true,
+              stretch: true,
+              expandedHeight: 0.3 * size.height,
+              backgroundColor: Colors.transparent,
+              flexibleSpace: const FlexibleSpaceBar(stretchModes: [
+                StretchMode.zoomBackground,
+              ], background: Center(child: Logo())),
+            ),
+            const SliverToBoxAdapter(child: RegisterContent()),
           ],
         ),
       ),

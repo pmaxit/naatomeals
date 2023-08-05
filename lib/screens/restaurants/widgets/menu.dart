@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:naatomeals/data/models/menu.dart';
 
 class RestaurantCard extends StatelessWidget {
-  final MenuCategory menuCategory;
-  const RestaurantCard({super.key, required this.menuCategory});
+  const RestaurantCard({super.key});
 
   @override
   Widget build(BuildContext context) {
