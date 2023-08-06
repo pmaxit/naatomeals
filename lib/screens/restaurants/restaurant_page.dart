@@ -60,7 +60,7 @@ class _RestaurantsDetailPageState extends State<RestaurantsDetailPage>
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
-                    fontSize: 30)),
+                    fontSize: 20)),
             backgroundColor: Colors.transparent,
           ),
           body: DecoratedBox(
@@ -199,17 +199,19 @@ class _RestaurantsDetailPageState extends State<RestaurantsDetailPage>
         animation: _tabController.animation!,
         child: const RestaurantMenuList(),
         builder: (context, child) {
-          return FadeTransition(opacity: _animationController, child: child);
+          return _getSlideTransition(child);
+
+          // return FadeTransition(opacity: _animationController, child: child);
         });
   }
 
-  SlideTransition _getSlideTransition(List<Widget> children) {
+  SlideTransition _getSlideTransition(Widget? child) {
     return SlideTransition(
       position: Tween<Offset>(
         begin: const Offset(1, 0),
         end: const Offset(0, 0),
       ).animate(_tabController.animation!),
-      child: children[_selectedTabIndex],
+      child: child,
     );
   }
 }

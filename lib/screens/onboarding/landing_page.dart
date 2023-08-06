@@ -2,17 +2,20 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../utils/provider/shared_preferences_providers.dart';
 import 'screen.dart';
 
-class FirstScreen extends HookWidget {
+class FirstScreen extends HookConsumerWidget {
   const FirstScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // page controller
     final pageController = usePageController(initialPage: 0);
+    final prProvider = ref.watch(preferenceSettingsProvider);
 
     List<dynamic> pages = const [
       OnBoardingPage(
@@ -39,7 +42,9 @@ class FirstScreen extends HookWidget {
         if (pageController.page == pages.length - 1) {
           timer.cancel();
           // push to the next screen
-          Navigator.popAndPushNamed(context, 'wrapper_screen');
+          Navigator.popAndPushNamed(context, 'register_screen');
+          // onboarding done
+          prProvider.setOnboardingDone(false);
         } else {
           pageController.nextPage(
               duration: const Duration(milliseconds: 300),
@@ -49,6 +54,22 @@ class FirstScreen extends HookWidget {
       return null;
     }, []);
 
+    return OnBoarding(pageController: pageController, pages: pages);
+  }
+}
+
+class OnBoarding extends StatelessWidget {
+  const OnBoarding({
+    super.key,
+    required this.pageController,
+    required this.pages,
+  });
+
+  final PageController pageController;
+  final List pages;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
             child: SingleChildScrollView(

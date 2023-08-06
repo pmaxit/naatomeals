@@ -9,6 +9,7 @@ import 'routes/register_routes.dart';
 import 'utils/navigation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'utils/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,12 +30,13 @@ class MyApp extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final NewAppTheme apptheme = NewAppTheme();
     final prProvider = ref.watch(preferenceSettingsProvider);
     return MaterialApp(
       title: 'Naato Meals',
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
-      theme: prProvider.themeData,
+      theme: apptheme.darkTheme,
       initialRoute: Routes.splashScreen,
       routes: routesApp,
     );

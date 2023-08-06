@@ -20,10 +20,17 @@ class PreferenceSettingsProvider extends ChangeNotifier {
   bool _isDarkThemeActive = false;
   bool get isDarkThemeActive => _isDarkThemeActive;
 
+  bool _isOnboardingDone = false;
+  bool get isOnboardingDone => _isOnboardingDone;
+
+  // create AppTheme
+  AppTheme appTheme = AppTheme();
+
   void _getPreferenceSettings() async {
     _isDailyNotificationActive =
         await _preferenceSettingsHelper.isDailyNotificationActive;
     _isDarkThemeActive = await _preferenceSettingsHelper.isDarkThemeActive;
+    _isOnboardingDone = await _preferenceSettingsHelper.isOnboardingDone;
     notifyListeners();
   }
 
@@ -38,6 +45,16 @@ class PreferenceSettingsProvider extends ChangeNotifier {
     } else {
       _preferenceSettingsHelper.setDarkTheme(value);
     }
+    _getPreferenceSettings();
+  }
+
+  void setOnboardingDone(bool value) async {
+    _preferenceSettingsHelper.setOnboardingDone(value);
+    _getPreferenceSettings();
+  }
+
+  void resetOnBoardingDone() async {
+    _preferenceSettingsHelper.setOnboardingDone(false);
     _getPreferenceSettings();
   }
 
@@ -68,7 +85,8 @@ class PreferenceSettingsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  ThemeData get themeData => AppTheme.lightTheme;
+  ThemeData get themeData =>
+      _isDarkThemeActive ? appTheme.darkTheme : appTheme.lightTheme;
 
   // ThemeData get themeData =>
   //     _isDarkThemeActive ? AppTheme.darkTheme : AppTheme.lightTheme;

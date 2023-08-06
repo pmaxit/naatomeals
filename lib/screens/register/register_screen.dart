@@ -23,17 +23,21 @@ class RegisterScreen extends HookWidget {
         ),
         child: CustomScrollView(
           // No bouncing
-          physics: const BouncingScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(),
           slivers: [
             SliverAppBar(
               pinned: true,
               stretch: true,
               automaticallyImplyLeading: false,
-              expandedHeight: 0.3 * size.height,
+              expandedHeight: 0.25 * size.height,
               backgroundColor: Colors.transparent,
-              flexibleSpace: const FlexibleSpaceBar(stretchModes: [
-                StretchMode.zoomBackground,
-              ], background: Center(child: Logo())),
+              flexibleSpace: const FlexibleSpaceBar(
+                  stretchModes: [
+                    StretchMode.zoomBackground,
+                  ],
+                  background: Center(
+                      child: Align(
+                          alignment: Alignment.bottomCenter, child: Logo()))),
             ),
             const SliverToBoxAdapter(child: RegisterContent()),
           ],

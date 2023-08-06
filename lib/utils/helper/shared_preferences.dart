@@ -28,4 +28,15 @@ class PreferenceSettingsHelper {
     final prefs = await sharedPreferences;
     prefs.setBool(darkTheme, value);
   }
+
+  static const onboarding = 'onboarding';
+  Future<bool> get isOnboardingDone async {
+    final prefs = await sharedPreferences;
+    return prefs.getBool(onboarding) ?? false;
+  }
+
+  void setOnboardingDone(bool value) async {
+    final prefs = await sharedPreferences;
+    prefs.setBool(onboarding, value);
+  }
 }

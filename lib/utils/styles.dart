@@ -20,7 +20,8 @@ Color blackColor50 = HexColor('#4D5364');
 Color blackColor20 = HexColor('#6E7489');
 
 // Gray Color with Opacity 20 - 80 %
-Color grayColor = HexColor('#9A9FAE');
+//Color grayColor = HexColor('#9A9FAE');
+Color grayColor = blackColor50;
 Color grayColor80 = HexColor('#A8ACB9');
 Color grayColor50 = HexColor('#C4C7D0');
 Color grayColor20 = HexColor('#EBEBEB');
