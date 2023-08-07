@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:naatomeals/utils/styles.dart';
 
+import '../../../data/models/restaurant.dart';
+
 class RestaurantCard extends StatelessWidget {
   final double width = 175;
   final double height = 110;
   final String? offerMessage;
-  const RestaurantCard({super.key, this.offerMessage});
+  final Restaurant restaurant;
+  const RestaurantCard(
+      {required this.restaurant, super.key, this.offerMessage});
 
   @override
   Widget build(BuildContext context) {
+    print("restaurant: $restaurant");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -59,7 +64,7 @@ class RestaurantCard extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 5),
           child: Text(
-            "The Indian Kitchen",
+            restaurant.name,
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium!

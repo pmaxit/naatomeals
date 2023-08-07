@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:naatomeals/screens/home/widgets/cusine_card.dart';
 import 'package:naatomeals/utils/styles.dart';
 
+import '../../data/models/restaurant.dart';
+import '../../services/restaurant_service.dart';
 import '../profile/profile_screen.dart';
+import 'bloc/home_cubit.dart';
 import 'widgets/restaurant_card.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   double searchTopBarPosition = 140;
   int currentIndex = 0;
   late ScrollController _scrollController;
@@ -40,17 +45,17 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  Widget _get_home_page() {
+  Widget _get_home_page(List<Restaurant> restaurants) {
     return Stack(
       children: [
         CustomScrollView(controller: _scrollController, slivers: [
           _buildAppBar2(context),
           SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              sliver: _buildBody(context)),
+              sliver: _buildBody(context, restaurants)),
           SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              sliver: _build_restaurant_list()),
+              sliver: _build_restaurant_list(restaurants)),
           SliverFillRemaining(
             hasScrollBody: false,
             child: Container(
@@ -63,21 +68,38 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Map<int, Widget> getMappings() {
+  Map<int, Widget> getMappings(List<Restaurant> restaurants) {
     return {
-      0: _get_home_page(),
-      1: _get_home_page(),
-      2: _get_home_page(),
+      0: _get_home_page(restaurants),
+      1: _get_home_page(restaurants),
+      2: _get_home_page(restaurants),
       3: const ProfileScreen(),
     };
   }
 
   @override
   Widget build(BuildContext context) {
-    //context.read(apiServiceProvider);
-
     return Scaffold(
-      body: getMappings()[currentIndex],
+      body: BlocProvider(
+        create: (context) => HomeCubit(ref.read(apiProvider))..getRestaurants(),
+        child: BlocBuilder<HomeCubit, HomeState>(
+          builder: (context, state) {
+            print("state is: $state");
+            if (state.isLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state.isLoading == false &&
+                state.restaurants.isNotEmpty) {
+              return getMappings(state.restaurants.toList())[currentIndex]!;
+            } else if (state.error != null) {
+              return Center(
+                  child:
+                      Text(state.error!, style: TextStyle(color: Colors.red)));
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          },
+        ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: currentIndex,
           selectedItemColor: orangeColor,
@@ -144,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildBody(BuildContext context) {
+  Widget _buildBody(BuildContext context, List<Restaurant> restaurants) {
     return SliverList(
         delegate: SliverChildListDelegate([
       const SizedBox(
@@ -154,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
       const SizedBox(
         height: 20,
       ),
-      _build_restaurant_cards(),
+      _build_restaurant_cards(restaurants),
       const SizedBox(
         height: 20,
       ),
@@ -192,14 +214,14 @@ class _HomeScreenState extends State<HomeScreen> {
         ));
   }
 
-  Widget _build_restaurant_cards() {
+  Widget _build_restaurant_cards(List<Restaurant> restaurants) {
     return SizedBox(
       height: 150,
       child: ListView.builder(
         itemExtent: 185,
         shrinkWrap: false,
         scrollDirection: Axis.horizontal,
-        itemCount: 4,
+        itemCount: restaurants.length,
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
@@ -208,6 +230,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Padding(
               padding: const EdgeInsets.only(right: 20),
               child: RestaurantCard(
+                restaurant: restaurants[index],
                 offerMessage: index % 2 != 0 ? null : "50% Off",
               ),
             ),
@@ -267,7 +290,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _build_restaurant_list() {
+  Widget _build_restaurant_list(List<Restaurant> restaurants) {
     return SliverFixedExtentList(
         itemExtent: 85,
         delegate: SliverChildBuilderDelegate((context, index) {
@@ -292,7 +315,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      " Priyanka's Kitchen",
+                      restaurants[index].name,
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           color: Colors.black, fontWeight: FontWeight.bold),
                     ),
@@ -324,6 +347,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ])
             ]),
           );
-        }, childCount: 10));
+        }, childCount: restaurants.length));
   }
 }

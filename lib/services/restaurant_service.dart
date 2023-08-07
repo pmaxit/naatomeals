@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../models/restaurant.dart';
-import '../models/user.dart';
+import '../data/models/restaurant.dart';
+import '../data/models/user.dart';
 
 class ApiService {
   // get specific user from firebase
@@ -24,7 +24,6 @@ class ApiService {
     return firestore.collection("restaurants").get().then((value) {
       value.docs.forEach((element) {
         restaurants.add(Restaurant.fromJson(element.data()));
-        print(element.data());
       });
     }).then((value) => restaurants);
   }

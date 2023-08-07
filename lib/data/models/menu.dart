@@ -5,35 +5,49 @@ class Cuisines {
 }
 
 class MenuItem {
-  final String image;
-  final num price;
-  final String veg_or_non_veg;
-  final String name;
+  final String category;
+  final List<Map<String, dynamic>> items;
 
-  MenuItem(
-      {required this.image,
-      required this.price,
-      required this.veg_or_non_veg,
-      required this.name});
+  MenuItem({required this.category, required this.items});
+
+  // toString
+  @override
+  String toString() {
+    return 'MenuItem{category: $category, items: $items}';
+  }
 
   // from json
-  factory MenuItem.fromJson(Map<String, dynamic> json) => MenuItem(
-        image: json['image'],
-        price: json['price'],
-        veg_or_non_veg: json['veg_or_non_veg'],
-        name: json['name'],
-      );
+  factory MenuItem.fromJson(Map<String, dynamic> json) {
+    List<Map<String, dynamic>> items = [];
+    for (var element in json['items']) {
+      items.add(element as Map<String, dynamic>);
+    }
+    return MenuItem(
+      category: json['category'],
+      items: items,
+    );
+  }
 }
 
 class Menu {
-  final String category;
   final List<MenuItem> items;
 
-  Menu({required this.category, required this.items});
+  Menu({required this.items});
 
   // from json
-  factory Menu.fromJson(Map<String, dynamic> json) => Menu(
-        category: json['category'],
-        items: json['items'],
-      );
+  factory Menu.fromJson(List<dynamic> json) {
+    List<MenuItem> items = [];
+    for (var element in json) {
+      items.add(MenuItem.fromJson(element as Map<String, dynamic>));
+    }
+    return Menu(
+      items: items,
+    );
+  }
+
+  // to String
+  @override
+  String toString() {
+    return 'Menu{items: $items}';
+  }
 }

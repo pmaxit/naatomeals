@@ -7,7 +7,7 @@ class Restaurant {
   final String url;
   final String imageUrl;
   final String address;
-  final Image image;
+  final String image;
   final Menu menu;
 
   Restaurant({
@@ -25,7 +25,13 @@ class Restaurant {
         url: json['url'],
         imageUrl: json['imageUrl'],
         address: json['address'],
-        image: json['image'],
+        image: json['imageUrl'],
         menu: Menu.fromJson(json['menu']),
       );
+
+  // to String
+  @override
+  String toString() {
+    return 'Restaurant{name: $name, url: $url, imageUrl: $imageUrl, address: $address, image: $image, menu: $menu}';
+  }
 }

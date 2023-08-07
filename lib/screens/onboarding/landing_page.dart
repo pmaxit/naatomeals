@@ -88,15 +88,16 @@ class OnBoarding extends StatelessWidget {
           const SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Expanded(
+            child: Stack(children: [
+              SizedBox(
+                height: 40,
                 child: Align(
                   alignment: Alignment.center,
                   child: SmoothPageIndicator(
                     controller: pageController,
                     count: pages.length,
-                    effect: const ExpandingDotsEffect(
-                      activeDotColor: Colors.indigo,
+                    effect: ExpandingDotsEffect(
+                      activeDotColor: Theme.of(context).colorScheme.secondary,
                       dotColor: Colors.grey,
                       strokeWidth: 1.5,
                       dotHeight: 7,
@@ -106,21 +107,25 @@ class OnBoarding extends StatelessWidget {
                   ),
                 ),
               ),
-
-              // next icon
-              IconButton(
-                onPressed: () {
-                  if (pageController.page == pages.length - 1) {
-                    // push to the next screen
-                    Navigator.popAndPushNamed(context, 'welcome_screen');
-                  } else {
-                    pageController.nextPage(
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeIn);
-                  }
-                },
-                icon: const Icon(Icons.arrow_forward_ios),
+              Positioned(
+                right: 0,
+                top: 0,
+                child: IconButton(
+                  onPressed: () {
+                    if (pageController.hasClients == false) return;
+                    if (pageController.page == pages.length - 1) {
+                      // push to the next screen
+                      Navigator.popAndPushNamed(context, 'register_screen');
+                    } else {
+                      pageController.nextPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeIn);
+                    }
+                  },
+                  icon: const Icon(Icons.arrow_forward_ios),
+                ),
               ),
+              // next icon
             ]),
           ),
           const SizedBox(height: 16),

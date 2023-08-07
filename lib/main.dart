@@ -31,12 +31,11 @@ class MyApp extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final NewAppTheme apptheme = NewAppTheme();
-    final prProvider = ref.watch(preferenceSettingsProvider);
     return MaterialApp(
       title: 'Naato Meals',
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
-      theme: apptheme.darkTheme,
+      theme: apptheme.lightTheme,
       initialRoute: Routes.splashScreen,
       routes: routesApp,
     );

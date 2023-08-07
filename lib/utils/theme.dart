@@ -45,9 +45,9 @@ class NewAppTheme {
       ),
       hintStyle: TextStyle(
         fontFamily: poppins,
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: FontWeight.w800,
-        color: orangeColor,
+        color: blackColor50,
         letterSpacing: 0.5,
       ),
     ),
