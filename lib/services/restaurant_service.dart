@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../data/models/menu.dart';
 import '../data/models/restaurant.dart';
 import '../data/models/user.dart';
 
@@ -13,6 +14,18 @@ class ApiService {
     return firestore.collection("users").doc(uid).get().then((value) {
       return User.fromJson(value.data()!);
     });
+  }
+
+  Future<List<Cuisines>> getCuisines() async {
+    // firestore instance
+    final firestore = FirebaseFirestore.instance;
+    List<Cuisines> cuisines = [];
+    // get all cuisines
+    return firestore.collection("cuisines").get().then((value) {
+      value.docs.forEach((element) {
+        cuisines.add(Cuisines.fromJson(element.data()));
+      });
+    }).then((value) => cuisines);
   }
 
   // get all restaurants from firebase

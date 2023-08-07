@@ -109,7 +109,7 @@ class OnBoarding extends StatelessWidget {
               ),
               Positioned(
                 right: 0,
-                top: 0,
+                top: -4,
                 child: IconButton(
                   onPressed: () {
                     if (pageController.hasClients == false) return;

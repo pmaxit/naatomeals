@@ -2,6 +2,13 @@ class Cuisines {
   final String name;
 
   Cuisines({required this.name});
+
+  // From Json
+  factory Cuisines.fromJson(Map<String, dynamic> json) {
+    return Cuisines(
+      name: json['name'],
+    );
+  }
 }
 
 class MenuItem {

@@ -1,7 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:naatomeals/utils/styles.dart';
+import 'package:naatomeals/screens/home/widgets/heading.dart';
 
 import '../../../data/models/restaurant.dart';
+import '../../../utils/styles.dart';
+
+class Offers extends StatelessWidget {
+  final List<Restaurant> restaurants;
+  const Offers({super.key, required this.restaurants});
+
+  Widget _build_restaurant_cards() {
+    return SizedBox(
+      height: 150,
+      child: ListView.builder(
+        itemExtent: 185,
+        shrinkWrap: false,
+        scrollDirection: Axis.horizontal,
+        itemCount: restaurants.length,
+        itemBuilder: (context, index) {
+          return InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, 'restaurant_page');
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: RestaurantCard(
+                restaurant: restaurants[index],
+                offerMessage: index % 2 != 0 ? null : "50% Off",
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverList(
+        delegate: SliverChildListDelegate([
+      const HeadingOptions(heading: " Offers for you", subHeading: "See all"),
+      _build_restaurant_cards(),
+    ]));
+  }
+}
 
 class RestaurantCard extends StatelessWidget {
   final double width = 175;
@@ -13,7 +54,6 @@ class RestaurantCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("restaurant: $restaurant");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
