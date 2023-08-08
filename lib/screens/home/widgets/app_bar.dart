@@ -7,12 +7,34 @@ class MyAppBar extends StatelessWidget {
   SliverAppBar build(BuildContext context) {
     return SliverAppBar(
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-      expandedHeight: 175,
+      expandedHeight: 200,
       primary: false,
       pinned: true,
       collapsedHeight: 100,
       stretch: true,
       automaticallyImplyLeading: false,
+      bottom: PreferredSize(
+        preferredSize: const Size.fromHeight(20),
+        child: Stack(
+          children: [
+            Positioned(
+                top: 25,
+                left: 0,
+                right: 0,
+                child: Container(color: Colors.white, height: 25)),
+            Container(
+                padding: const EdgeInsets.only(left: 24, right: 24, bottom: 3),
+                color: Colors.transparent,
+                height: 50,
+                child: const SearchBar(
+                  leading: Icon(Icons.search),
+                  hintText: "Search for restaurants, dishes...",
+
+                  //  onChanged: (value) => context.read(searchProvider).state = value,
+                )),
+          ],
+        ),
+      ),
       flexibleSpace: FlexibleSpaceBar(
           background:
               Stack(fit: StackFit.expand, clipBehavior: Clip.none, children: [

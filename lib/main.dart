@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:naatomeals/routes/routes.dart';
-import 'package:naatomeals/utils/provider/shared_preferences_providers.dart';
 
 import 'routes/register_routes.dart';
 import 'utils/navigation.dart';

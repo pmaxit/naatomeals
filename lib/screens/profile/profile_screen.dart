@@ -29,7 +29,7 @@ class ProfileScreen extends HookConsumerWidget {
           fontWeight: FontWeight.bold,
         ),
       ),
-      onTap: () {},
+      onTap: tapHandler as void Function()?,
     );
   }
 
@@ -114,8 +114,8 @@ class ProfileScreen extends HookConsumerWidget {
                   Icons.logout,
                   () async {
                     await ref.read(authProvider).signOut();
-                    Navigator.popUntil(
-                        context, ModalRoute.withName('register_screen'));
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, 'register_screen', (route) => false);
                   },
                 ),
               ],

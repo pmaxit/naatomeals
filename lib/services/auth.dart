@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class Auth {
+class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -51,6 +51,7 @@ class Auth {
   }
 
   Future<void> signOut() async {
+    print("signing out");
     try {
       await _firebaseAuth.signOut();
     } on FirebaseAuthException catch (e) {
@@ -76,7 +77,7 @@ class Auth {
 }
 
 // create provider
-final authProvider = Provider<Auth>((ref) => Auth());
+final authProvider = Provider<AuthService>((ref) => AuthService());
 
 // create provider for auth state changes
 final authStateChangesProvider =
