@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 
+import '../../../data/models/menu.dart';
 import 'menu.dart';
 
 class RestaurantMenuList extends StatelessWidget {
-  const RestaurantMenuList({super.key});
+  List<MenuItem> menu = [];
+  RestaurantMenuList({super.key, required this.menu});
 
   @override
   Widget build(BuildContext context) {
+    print("menu length ${menu.length}");
     return ListView.builder(
         shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         itemExtent: 150,
-        itemCount: 5,
-        itemBuilder: (context, index) => const RestaurantCard());
+        itemCount: menu.length,
+        itemBuilder: (context, index) =>
+            RestaurantCard(menu: menu[index], image: menu[index].image));
   }
 }

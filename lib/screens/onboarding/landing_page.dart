@@ -42,9 +42,9 @@ class FirstScreen extends HookConsumerWidget {
         if (pageController.page == pages.length - 1) {
           timer.cancel();
           // push to the next screen
-          Navigator.popAndPushNamed(context, 'register_screen');
+          prProvider.setOnboardingDone(true);
+          Navigator.popAndPushNamed(context, 'welcome_screen');
           // onboarding done
-          prProvider.setOnboardingDone(false);
         } else {
           pageController.nextPage(
               duration: const Duration(milliseconds: 300),

@@ -9,13 +9,35 @@ class Cuisines {
       name: json['name'],
     );
   }
+
+  //toString
+  @override
+  String toString() {
+    return 'Cuisines{name: $name}';
+  }
 }
 
 class MenuItem {
   final String category;
+  final String? subCategory;
+  final String? image;
   final List<Map<String, dynamic>> items;
 
-  MenuItem({required this.category, required this.items});
+  MenuItem(
+      {required this.category,
+      required this.items,
+      required this.subCategory,
+      required this.image});
+
+  // create dummy item
+  static MenuItem dummyItem() {
+    return MenuItem(
+      category: '',
+      items: [],
+      subCategory: '',
+      image: '',
+    );
+  }
 
   // toString
   @override
@@ -32,6 +54,8 @@ class MenuItem {
     return MenuItem(
       category: json['category'],
       items: items,
+      subCategory: json['subCategory'],
+      image: json['image'] ?? 'https://picsum.photos/200/300',
     );
   }
 }

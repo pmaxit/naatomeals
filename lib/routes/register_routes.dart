@@ -12,6 +12,8 @@ Map<String, WidgetBuilder> routesApp = {
   Routes.registerScreen: (context) => const RegisterScreen(),
   Routes.homeScreen: (context) => const HomeScreen(),
   Routes.onboarding: (context) => const FirstScreen(),
+  // take argument
   Routes.restaurantPage: (context) => const RestaurantsDetailPage(),
+  //Routes.restaurantPage: (context) => const RestaurantsDetailPage(),
   Routes.wrapperScreen: (context) => const Wrapper(),
 };

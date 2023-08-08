@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:naatomeals/screens/home/widgets/heading.dart';
 
@@ -19,7 +20,9 @@ class Offers extends StatelessWidget {
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
-              Navigator.pushNamed(context, 'restaurant_page');
+              Navigator.pushNamed(context, 'restaurant_page', arguments: {
+                'restaurant': restaurants[index],
+              });
             },
             child: Padding(
               padding: const EdgeInsets.only(right: 20),
@@ -65,12 +68,10 @@ class RestaurantCard extends StatelessWidget {
             child: Container(
               width: width,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                image: const DecorationImage(
-                  image: AssetImage('assets/images/1.png'),
-                  fit: BoxFit.cover,
-                ),
-              ),
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                      image: CachedNetworkImageProvider(restaurant.imageUrl),
+                      fit: BoxFit.cover)),
               child: Stack(children: [
                 Positioned(
                     left: 0,

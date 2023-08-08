@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:naatomeals/screens/welcome/widgets/button.dart';
 
 class OnBoardingPage extends StatelessWidget {
   final String pageName;
